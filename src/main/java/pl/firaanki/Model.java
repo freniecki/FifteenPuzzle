@@ -14,20 +14,14 @@ public class Model {
             {13, 14, 15, 0}
     };
 
-    private int[][] chart;
 
     private final char[] order;
 
     /* --------------------------------------------------------------------- */
-    Model(int x, int y, int[][] baseChart, char[] order)  {
+    Model(int x, int y, char[] order)  {
         X_SIZE = x;
         Y_SIZE = y;
-        this.chart = baseChart;
         this.order = order;
-    }
-
-    public int[][] getChart() {
-        return chart;
     }
 
     public int getX_SIZE() {
@@ -38,10 +32,10 @@ public class Model {
         return Y_SIZE;
     }
 
-    public boolean verify(int[][] chart) {
+    public boolean verify(Table chart) {
         for (int i = 0; i < X_SIZE; i++) {
             for (int j = 0; j < Y_SIZE; j++) {
-                if (PATTERN_CHART[i][j] != this.chart[i][j]) {
+                if (PATTERN_CHART[i][j] != chart.getValue(i, j)) {
                     return false;
                 }
             }
@@ -49,35 +43,16 @@ public class Model {
         return true;
     }
 
-    /**
-     * Main DFS method
-     * @param direction tells the directions of change
-     */
-    public void DFS(char direction) {
-        // wykonaj ruch
-        // sprawdz czy poprawny
 
-        swapNumbers(direction);
+    boolean bfs(Table chartToSolve) {
 
-        if (!verify(chart)) {
-            DFS();
+        if (verify(chartToSolve)) {
+            return true;
+        } else {
+            for (int i = 0; i < 4; i++) {
+
+            }
         }
     }
-
-    /**
-     * Swap 0 with other number in given direction
-     */
-    private void swapNumbers(char direction) {
-        if (direction == 'L') {
-
-        } else if (direction == 'R') {
-
-        } else if (direction == 'U') {
-
-        } else  {
-
-        }
-    }
-
 
 }
