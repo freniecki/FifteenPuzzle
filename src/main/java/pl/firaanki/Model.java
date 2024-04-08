@@ -1,6 +1,6 @@
 package pl.firaanki;
 
-import static java.util.Arrays.compare;
+import java.util.Queue;
 
 public class Model {
 
@@ -16,6 +16,7 @@ public class Model {
 
 
     private final char[] order;
+    private String solution = "";
 
     /* --------------------------------------------------------------------- */
     Model(int x, int y, char[] order)  {
@@ -39,20 +40,31 @@ public class Model {
                     return false;
                 }
             }
-        };
+        }
         return true;
     }
 
+    public boolean verifySides(Table chartToMove) {
+        boolean check = false;
+        for (int i = 0; i < 4; i++) {
+            check = verify(chartToMove.moveTile(order[i]));
+            if (check) {
+                solution += order[i];
+            }
+        }
+        return check;
+    }
 
     boolean bfs(Table chartToSolve) {
 
+        Queue<Table> queue = new Queue<Table>();
+
+
         if (verify(chartToSolve)) {
             return true;
-        } else {
-            for (int i = 0; i < 4; i++) {
-
-            }
         }
+
+        verifySides(chartToSolve);
     }
 
 }

@@ -39,7 +39,7 @@ public class Table {
         return -1;
     }
 
-    public int[][] moveTile(char direction) {
+    public Table moveTile(char direction) {
 
         switch (direction) {
             case 'L':
@@ -83,6 +83,6 @@ public class Table {
 
                 break;
         }
-        return chart;
+        return this;
     }
 }
