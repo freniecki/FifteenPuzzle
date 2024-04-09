@@ -1,11 +1,8 @@
 package pl.firaanki;
 
-import java.util.Queue;
+import java.util.*;
 
 public class Model {
-
-    private final int X_SIZE;
-    private final int Y_SIZE;
 
     private static final int[][] PATTERN_CHART = {
             {1, 2, 3, 4},
@@ -14,28 +11,35 @@ public class Model {
             {13, 14, 15, 0}
     };
 
+    Map<Table, List<Table>> adjacencyList = new HashMap<>();
 
     private final char[] order;
     private String solution = "";
 
     /* --------------------------------------------------------------------- */
-    Model(int x, int y, char[] order)  {
-        X_SIZE = x;
-        Y_SIZE = y;
+    Model(char[] order)  {
         this.order = order;
     }
 
-    public int getX_SIZE() {
-        return X_SIZE;
+    String getSolution() {
+        return solution;
     }
 
-    public int getY_SIZE() {
-        return Y_SIZE;
+    void addEdge(Table parent, Table child) {
+        adjacencyList.putIfAbsent(parent, new ArrayList<>());
+        adjacencyList.putIfAbsent(child, new ArrayList<>());
+        adjacencyList.get(parent).add(child);
+    }
+
+    void fillAdjacencyList(Table chartToSolve) {
+        for (int i = 0; i < 4; i++) {
+            addEdge(chartToSolve, chartToSolve.moveTile(order[i]));
+        }
     }
 
     public boolean verify(Table chart) {
-        for (int i = 0; i < X_SIZE; i++) {
-            for (int j = 0; j < Y_SIZE; j++) {
+        for (int i = 0; i < chart.getX(); i++) {
+            for (int j = 0; j < chart.getY(); j++) {
                 if (PATTERN_CHART[i][j] != chart.getValue(i, j)) {
                     return false;
                 }
@@ -55,16 +59,47 @@ public class Model {
         return check;
     }
 
-    boolean bfs(Table chartToSolve) {
+    public boolean bfs(Table chartToSolve) {
 
-        Queue<Table> queue = new Queue<Table>();
+        Queue<Table> queue = new LinkedList<>();
+        Set<Table> visited = new HashSet<>();
 
+        fillAdjacencyList(chartToSolve);
 
-        if (verify(chartToSolve)) {
-            return true;
+        for (Table t : adjacencyList.get(chartToSolve)) {
+            printMethod(t);
         }
 
-        verifySides(chartToSolve);
+        visited.add(chartToSolve);
+        queue.add(chartToSolve);
+
+        while (!queue.isEmpty()) {
+            Table currentChart = queue.poll();
+
+            printMethod(currentChart);
+
+            if (verify(currentChart)) {
+                return true;
+            }
+
+            for (Table neighbours : adjacencyList.get(currentChart)) {
+                if (!visited.contains(neighbours)) {
+                    visited.add(neighbours);
+                    queue.add(neighbours);
+                }
+            }
+        }
+
+        return false;
     }
 
+    public void printMethod(Table chart) {
+        for (int i = 0; i < chart.getX(); i++) {
+            for (int j = 0; j < chart.getY(); j++) {
+                System.out.print(chart.getValue(i,j) + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
 }
