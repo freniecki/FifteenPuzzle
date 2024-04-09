@@ -21,16 +21,16 @@ public class Table {
         return ySize;
     }
 
+    public int getValue(int x, int y) {
+        return chart[x][y];
+    }
+
     public int[][] getChart() {
         int[][] newChart = new int[xSize][ySize];
         for (int i = 0; i < xSize; i++) {
             System.arraycopy(chart[i], 0, newChart[i], 0, ySize);
         }
         return newChart;
-    }
-
-    public int getValue(int x, int y) {
-        return chart[x][y];
     }
 
     int getXZeroPosition() {

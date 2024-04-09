@@ -11,18 +11,17 @@ public class Model {
             {13, 14, 15, 0}
     };
 
-    Map<Table, List<Table>> adjacencyList = new HashMap<>();
+    private final Map<Table, List<Table>> adjacencyList = new HashMap<>();
 
-    private final char[] order;
-    private String solution = "";
+    private final char[] order = new char[4];
 
     /* --------------------------------------------------------------------- */
     Model(char[] order)  {
-        this.order = order;
+        System.arraycopy(order, 0, this.order, 0, 4);
     }
 
-    String getSolution() {
-        return solution;
+    public Map<Table, List<Table>> getAdjacencyList() {
+        return adjacencyList;
     }
 
     void addEdge(Table parent, Table child) {
@@ -33,7 +32,8 @@ public class Model {
 
     void fillAdjacencyList(Table chartToSolve) {
         for (int i = 0; i < 4; i++) {
-            addEdge(chartToSolve, chartToSolve.moveTile(order[i]));
+            Table neighbour = chartToSolve.moveTile(order[i]);
+            addEdge(chartToSolve, neighbour);
         }
     }
 
@@ -48,27 +48,12 @@ public class Model {
         return true;
     }
 
-    public boolean verifySides(Table chartToMove) {
-        boolean check = false;
-        for (int i = 0; i < 4; i++) {
-            check = verify(chartToMove.moveTile(order[i]));
-            if (check) {
-                solution += order[i];
-            }
-        }
-        return check;
-    }
-
     public boolean bfs(Table chartToSolve) {
 
         Queue<Table> queue = new LinkedList<>();
         Set<Table> visited = new HashSet<>();
 
         fillAdjacencyList(chartToSolve);
-
-        for (Table t : adjacencyList.get(chartToSolve)) {
-            printMethod(t);
-        }
 
         visited.add(chartToSolve);
         queue.add(chartToSolve);
