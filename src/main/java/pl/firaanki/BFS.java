@@ -1,8 +1,9 @@
 package pl.firaanki;
 
 import java.util.*;
+import java.util.logging.Logger;
 
-public class Model {
+public class BFS {
 
     private static final int[][] PATTERN_CHART = {
             {1, 2, 3, 4},
@@ -15,13 +16,18 @@ public class Model {
 
     private final char[] order = new char[4];
 
+    Logger logger = Logger.getLogger(getClass().getName());
     /* --------------------------------------------------------------------- */
-    Model(char[] order)  {
+    BFS(char[] order) {
         System.arraycopy(order, 0, this.order, 0, 4);
     }
 
     public Map<Table, List<Table>> getAdjacencyList() {
         return adjacencyList;
+    }
+
+    public char[] getOrder() {
+        return order;
     }
 
     void addEdge(Table parent, Table child) {
@@ -33,7 +39,10 @@ public class Model {
     void fillAdjacencyList(Table chartToSolve) {
         for (int i = 0; i < 4; i++) {
             Table neighbour = chartToSolve.moveTile(order[i]);
-            addEdge(chartToSolve, neighbour);
+
+            if (neighbour != null) {
+                addEdge(chartToSolve, neighbour);
+            }
         }
     }
 
@@ -61,30 +70,21 @@ public class Model {
         while (!queue.isEmpty()) {
             Table currentChart = queue.poll();
 
-            printMethod(currentChart);
-
             if (verify(currentChart)) {
+                logger.info(currentChart.getSteps());
+                logger.info(currentChart.getStepsCount());
                 return true;
             }
 
-            for (Table neighbours : adjacencyList.get(currentChart)) {
-                if (!visited.contains(neighbours)) {
-                    visited.add(neighbours);
-                    queue.add(neighbours);
+            for (Table neighbour : adjacencyList.get(currentChart)) {
+                if (!visited.contains(neighbour)) {
+                    fillAdjacencyList(neighbour);
+                    visited.add(neighbour);
+                    queue.add(neighbour);
                 }
             }
         }
 
         return false;
-    }
-
-    public void printMethod(Table chart) {
-        for (int i = 0; i < chart.getX(); i++) {
-            for (int j = 0; j < chart.getY(); j++) {
-                System.out.print(chart.getValue(i,j) + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 }

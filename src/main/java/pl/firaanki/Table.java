@@ -4,21 +4,21 @@ import java.util.Arrays;
 
 public class Table {
     private final int[][] chart;
-    private final int xSize;
-    private final int ySize;
+    private static final int X_SIZE = 4;
+    private static final int Y_SIZE = 4;
 
-    Table(int xSize, int ySize, int[][] chart) {
-        this.xSize = xSize;
-        this.ySize = ySize;
+    String steps = "";
+
+    Table(int[][] chart) {
         this.chart = chart;
     }
 
     public int getX() {
-        return xSize;
+        return X_SIZE;
     }
 
     public int getY() {
-        return ySize;
+        return Y_SIZE;
     }
 
     public int getValue(int x, int y) {
@@ -26,16 +26,16 @@ public class Table {
     }
 
     public int[][] getChart() {
-        int[][] newChart = new int[xSize][ySize];
-        for (int i = 0; i < xSize; i++) {
-            System.arraycopy(chart[i], 0, newChart[i], 0, ySize);
+        int[][] newChart = new int[X_SIZE][Y_SIZE];
+        for (int i = 0; i < X_SIZE; i++) {
+            System.arraycopy(chart[i], 0, newChart[i], 0, Y_SIZE);
         }
         return newChart;
     }
 
     int getXZeroPosition() {
-        for (int i = 0; i < xSize; i++) {
-            for (int j = 0; j < ySize; j++) {
+        for (int i = 0; i < X_SIZE; i++) {
+            for (int j = 0; j < Y_SIZE; j++) {
                 if (chart[i][j] == 0) {
                     return i;
                 }
@@ -44,8 +44,8 @@ public class Table {
         return -1;
     }
     int getYZeroPosition() {
-        for (int i = 0; i < xSize; i++) {
-            for (int j = 0; j < ySize; j++) {
+        for (int i = 0; i < X_SIZE; i++) {
+            for (int j = 0; j < Y_SIZE; j++) {
                 if (chart[i][j] == 0) {
                     return j;
                 }
@@ -58,45 +58,70 @@ public class Table {
         int xZero = getXZeroPosition();
         int yZero = getYZeroPosition();
 
+        Table newTab = new Table(this.getChart());
+
         switch (direction) {
             case 'L':
                 if (yZero != 0) {
-                    int tmp = chart[xZero][yZero];
-                    chart[xZero][yZero] = chart[xZero][yZero - 1];
-                    chart[xZero][yZero - 1] = tmp;
+                    int tmp = newTab.chart[xZero][yZero];
+                    newTab.chart[xZero][yZero] = newTab.chart[xZero][yZero - 1];
+                    newTab.chart[xZero][yZero - 1] = tmp;
+                    steps += 'L';
+                } else {
+                    return null;
                 }
                 break;
 
             case 'R':
-                if (yZero < ySize - 1) {
-                    int tmp = chart[xZero][yZero];
-                    chart[xZero][yZero] = chart[xZero][yZero + 1];
-                    chart[xZero][yZero + 1] = tmp;
+                if (yZero < Y_SIZE - 1) {
+                    int tmp = newTab.chart[xZero][yZero];
+                    newTab.chart[xZero][yZero] = newTab.chart[xZero][yZero + 1];
+                    newTab.chart[xZero][yZero + 1] = tmp;
+                    steps += 'R';
+                } else {
+                    return null;
                 }
                 break;
 
             case 'U':
                 if (xZero != 0) {
-                    int tmp = chart[xZero][yZero];
-                    chart[xZero][yZero] = chart[xZero - 1][yZero];
-                    chart[xZero - 1][yZero] = tmp;
+                    int tmp = newTab.chart[xZero][yZero];
+                    newTab.chart[xZero][yZero] = newTab.chart[xZero - 1][yZero];
+                    newTab.chart[xZero - 1][yZero] = tmp;
+                    steps += 'U';
+                } else {
+                    return null;
                 }
                 break;
 
             case 'D':
-                if (xZero < xSize - 1) {
-                    int tmp = chart[xZero][yZero];
-                    chart[xZero][yZero] = chart[xZero + 1][yZero];
-                    chart[xZero + 1][yZero] = tmp;
+                if (xZero < X_SIZE - 1) {
+                    int tmp = newTab.chart[xZero][yZero];
+                    newTab.chart[xZero][yZero] = newTab.chart[xZero + 1][yZero];
+                    newTab.chart[xZero + 1][yZero] = tmp;
+                    steps += 'D';
+                } else {
+                    return null;
                 }
                 break;
+            default:
+                return null;
         }
-        return this;
+        return newTab;
     }
+
+    String getSteps() {
+        return steps;
+    }
+
+    String getStepsCount() {
+        return String.valueOf(steps.length());
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < xSize; i++) {
+        for (int i = 0; i < X_SIZE; i++) {
             stringBuilder.append(Arrays.toString(chart[i]));
         }
         return stringBuilder.toString();
