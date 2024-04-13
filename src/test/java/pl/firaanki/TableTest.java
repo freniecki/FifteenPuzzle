@@ -14,7 +14,7 @@ class TableTest {
             { 9,10, 0,12},
             {13,14,11,15}
     };
-    Table table = new Table(test);
+    Table table = new Table(test, "");
 
     @Test
     void getX() {
@@ -52,14 +52,17 @@ class TableTest {
         String expD = "[1, 2, 3, 4][5, 6, 7, 8][9, 10, 11, 12][13, 14, 0, 15]";
         Assertions.assertEquals(expD, table.moveTile('D').toString());
 
-        String expU = "[1, 2, 3, 4][5, 6, 7, 8][9, 10, 0, 12][13, 14, 11, 15]";
+        String expU = "[1, 2, 3, 4][5, 6, 0, 8][9, 10, 7, 12][13, 14, 11, 15]";
         Assertions.assertEquals(expU, table.moveTile('U').toString());
 
         String expR = "[1, 2, 3, 4][5, 6, 7, 8][9, 10, 12, 0][13, 14, 11, 15]";
         Assertions.assertEquals(expR, table.moveTile('R').toString());
 
-        String expL = "[1, 2, 3, 4][5, 6, 7, 8][9, 10, 0, 12][13, 14, 11, 15]";
-        Assertions.assertEquals(expL, table.moveTile('L').toString());
+        String expL = "[1, 2, 3, 4][5, 6, 7, 8][9, 0, 10, 12][13, 14, 11, 15]";
+        Table tableL = table.moveTile('L');
+        Assertions.assertEquals(expL, tableL.toString());
+
+        System.out.println("dupa: " + tableL.getSteps());
 
         /*----------------------------------------------*/
 
@@ -69,7 +72,7 @@ class TableTest {
                 { 9,10, 11,12},
                 {13,14,15,0}
         };
-        Table table1 = new Table(test2);
+        Table table1 = new Table(test2, "");
 
         Assertions.assertNull(table1.moveTile('R'));
         Assertions.assertNull(table1.moveTile('D'));

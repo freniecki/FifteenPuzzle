@@ -5,13 +5,6 @@ import java.util.logging.Logger;
 
 public class BFS {
 
-    private static final int[][] PATTERN_CHART = {
-            {1, 2, 3, 4},
-            {5, 6, 7, 8},
-            {9, 10, 11, 12},
-            {13, 14, 15, 0}
-    };
-
     private final Map<Table, List<Table>> adjacencyList = new HashMap<>();
 
     private final char[] order = new char[4];
@@ -49,7 +42,7 @@ public class BFS {
     public boolean verify(Table chart) {
         for (int i = 0; i < chart.getX(); i++) {
             for (int j = 0; j < chart.getY(); j++) {
-                if (PATTERN_CHART[i][j] != chart.getValue(i, j)) {
+                if (Table.PATTERN_CHART[i][j] != chart.getValue(i, j)) {
                     return false;
                 }
             }

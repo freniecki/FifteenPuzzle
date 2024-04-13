@@ -3,14 +3,14 @@ package pl.firaanki;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static pl.firaanki.BFSTest.printMethod;
 
 class FileDaoTest {
     @Test
     void read() {
         Table test = FileDaoFactory.getFile(
-                "/home/firaanki/IdeaProjects/SISE_v2/src/main/java/pl/firaanki/4x4_05_00006.txt").read();
+                        "/home/firaanki/IdeaProjects/SISE_v2/src/main/java/pl/firaanki/4x4_05_00006.txt")
+                .read();
 
         printMethod(test);
 
@@ -22,5 +22,10 @@ class FileDaoTest {
         };
 
         Assertions.assertArrayEquals(chart, test.getChart());
+        char[] order = {'L', 'R', 'U', 'D'};
+        BFS bfs = new BFS(order);
+
+        Assertions.assertTrue(bfs.bfs(test));
     }
+
 }

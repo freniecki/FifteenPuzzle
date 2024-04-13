@@ -1,16 +1,28 @@
 package pl.firaanki;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class Table {
+
+    protected static final int[][] PATTERN_CHART = {
+            {1, 2, 3, 4},
+            {5, 6, 7, 8},
+            {9, 10, 11, 12},
+            {13, 14, 15, 0}
+    };
+
     private final int[][] chart;
     private static final int X_SIZE = 4;
     private static final int Y_SIZE = 4;
 
-    String steps = "";
+    private String steps = "";
 
-    Table(int[][] chart) {
+    Logger logger = Logger.getLogger(getClass().getName());
+
+    Table(int[][] chart, String steps) {
         this.chart = chart;
+        this.steps += steps;
     }
 
     public int getX() {
@@ -58,7 +70,7 @@ public class Table {
         int xZero = getXZeroPosition();
         int yZero = getYZeroPosition();
 
-        Table newTab = new Table(this.getChart());
+        Table newTab = new Table(this.getChart(), steps);
 
         switch (direction) {
             case 'L':
@@ -66,7 +78,6 @@ public class Table {
                     int tmp = newTab.chart[xZero][yZero];
                     newTab.chart[xZero][yZero] = newTab.chart[xZero][yZero - 1];
                     newTab.chart[xZero][yZero - 1] = tmp;
-                    steps += 'L';
                 } else {
                     return null;
                 }
@@ -77,7 +88,6 @@ public class Table {
                     int tmp = newTab.chart[xZero][yZero];
                     newTab.chart[xZero][yZero] = newTab.chart[xZero][yZero + 1];
                     newTab.chart[xZero][yZero + 1] = tmp;
-                    steps += 'R';
                 } else {
                     return null;
                 }
@@ -88,7 +98,6 @@ public class Table {
                     int tmp = newTab.chart[xZero][yZero];
                     newTab.chart[xZero][yZero] = newTab.chart[xZero - 1][yZero];
                     newTab.chart[xZero - 1][yZero] = tmp;
-                    steps += 'U';
                 } else {
                     return null;
                 }
@@ -99,7 +108,6 @@ public class Table {
                     int tmp = newTab.chart[xZero][yZero];
                     newTab.chart[xZero][yZero] = newTab.chart[xZero + 1][yZero];
                     newTab.chart[xZero + 1][yZero] = tmp;
-                    steps += 'D';
                 } else {
                     return null;
                 }
@@ -107,6 +115,7 @@ public class Table {
             default:
                 return null;
         }
+        newTab.steps += direction;
         return newTab;
     }
 

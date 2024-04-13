@@ -35,7 +35,7 @@ class BFSTest {
                 {13, 14, 11, 15}
         };
 
-        Table table = new Table(test);
+        Table table = new Table(test, "");
 
         Assertions.assertTrue(model.bfs(table));
     }
