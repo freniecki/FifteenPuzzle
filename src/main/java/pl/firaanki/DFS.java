@@ -1,6 +1,5 @@
 package pl.firaanki;
 
-import javax.swing.plaf.IconUIResource;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -31,7 +30,7 @@ public class DFS {
     }
 
     void fillAdjacencyList(Table chartToSolve) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 3; i >= 0; i--) {
             Table neighbour = chartToSolve.moveTile(order[i]);
 
             if (neighbour != null) {
@@ -41,18 +40,20 @@ public class DFS {
     }
 
     public boolean dfs(Table chartToSolve) {
-        Queue<Table> queue = new LinkedList<>();
+        Deque<Table> stack = new LinkedList<>();
         Set<Table> visited = new HashSet<>();
 
         fillAdjacencyList(chartToSolve);
 
         visited.add(chartToSolve);
-        queue.add(chartToSolve);
+        stack.addFirst(chartToSolve);
 
-        while(!queue.isEmpty()) {
-            Table currentChart = queue.poll();
+        while(!stack.isEmpty()) {
+            Table currentChart = stack.removeFirst();
 
-            logger.info("current: " + currentChart.toString());
+            if (Integer.parseInt(currentChart.getStepsCount()) > 20) {
+                continue;
+            }
 
             if (Helper.verify(currentChart)) {
                 logger.info(currentChart.getSteps());
@@ -60,19 +61,15 @@ public class DFS {
                 return true;
             }
 
-            if (Integer.parseInt(currentChart.getStepsCount()) <= 20) {
                 for (Table neighbour : adjacencyList.get(currentChart)) {
                     if (!visited.contains(neighbour)) {
-
-                        logger.info("neigbour: " + neighbour.toString());
-
                         fillAdjacencyList(neighbour);
                         visited.add(neighbour);
-                        queue.add(neighbour);
+                        stack.addFirst(neighbour);
                         break;
                     }
                 }
-            }
+
 
         }
 

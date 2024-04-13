@@ -52,6 +52,7 @@ public class Table {
         }
         return -1;
     }
+
     int getYZeroPosition() {
         for (int i = 0; i < X_SIZE; i++) {
             for (int j = 0; j < Y_SIZE; j++) {
@@ -63,7 +64,22 @@ public class Table {
         return -1;
     }
 
+    boolean checkPreviousStep(char direction) {
+        if (direction == 'L' && steps.endsWith("R")) {
+            return false;
+        } else if (direction == 'R' && steps.endsWith("L")) {
+            return false;
+        } else if (direction == 'U' && steps.endsWith("D")) {
+            return false;
+        } else return direction != 'D' || !steps.endsWith("U");
+    }
+
     public Table moveTile(char direction) {
+
+        if (!checkPreviousStep(direction)) {
+            return null;
+        }
+
         int xZero = getXZeroPosition();
         int yZero = getYZeroPosition();
 

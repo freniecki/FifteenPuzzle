@@ -23,4 +23,16 @@ class DFSTest {
 
         Assertions.assertTrue(model.dfs(table));
     }
+
+    @Test
+    void dfsFile() {
+        char[] order = {'L', 'R', 'U', 'D'};
+        DFS model = new DFS(order);
+
+        Table table = FileDaoFactory.getFile(
+                "/home/firaanki/IdeaProjects/SISE_v2/src/main/java/pl/firaanki/4x4_05_00006.txt")
+                .read();
+
+        Assertions.assertTrue(model.dfs(table));
+    }
 }
