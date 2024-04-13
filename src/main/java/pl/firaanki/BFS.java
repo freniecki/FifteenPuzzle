@@ -39,17 +39,6 @@ public class BFS {
         }
     }
 
-    public boolean verify(Table chart) {
-        for (int i = 0; i < chart.getX(); i++) {
-            for (int j = 0; j < chart.getY(); j++) {
-                if (Table.PATTERN_CHART[i][j] != chart.getValue(i, j)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public boolean bfs(Table chartToSolve) {
 
         Queue<Table> queue = new LinkedList<>();
@@ -63,7 +52,10 @@ public class BFS {
         while (!queue.isEmpty()) {
             Table currentChart = queue.poll();
 
-            if (verify(currentChart)) {
+            logger.info("current: " + currentChart.toString());
+
+
+            if (Helper.verify(currentChart)) {
                 logger.info(currentChart.getSteps());
                 logger.info(currentChart.getStepsCount());
                 return true;
@@ -71,6 +63,9 @@ public class BFS {
 
             for (Table neighbour : adjacencyList.get(currentChart)) {
                 if (!visited.contains(neighbour)) {
+
+                    logger.info("neigbour: " + neighbour.toString());
+
                     fillAdjacencyList(neighbour);
                     visited.add(neighbour);
                     queue.add(neighbour);

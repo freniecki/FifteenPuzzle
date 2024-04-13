@@ -1,8 +1,7 @@
 package pl.firaanki;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.swing.plaf.IconUIResource;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class DFS {
@@ -10,6 +9,7 @@ public class DFS {
     private final Map<Table, List<Table>> adjacencyList = new HashMap<>();
 
     private final char[] order = new char[4];
+
     Logger logger = Logger.getLogger(getClass().getName());
 
     DFS(char[] order) {
@@ -22,6 +22,61 @@ public class DFS {
 
     public char[] getOrder() {
         return order;
+    }
+
+    void addEdge(Table parent, Table child) {
+        adjacencyList.putIfAbsent(parent, new ArrayList<>());
+        adjacencyList.putIfAbsent(child, new ArrayList<>());
+        adjacencyList.get(parent).add(child);
+    }
+
+    void fillAdjacencyList(Table chartToSolve) {
+        for (int i = 0; i < 4; i++) {
+            Table neighbour = chartToSolve.moveTile(order[i]);
+
+            if (neighbour != null) {
+                addEdge(chartToSolve, neighbour);
+            }
+        }
+    }
+
+    public boolean dfs(Table chartToSolve) {
+        Queue<Table> queue = new LinkedList<>();
+        Set<Table> visited = new HashSet<>();
+
+        fillAdjacencyList(chartToSolve);
+
+        visited.add(chartToSolve);
+        queue.add(chartToSolve);
+
+        while(!queue.isEmpty()) {
+            Table currentChart = queue.poll();
+
+            logger.info("current: " + currentChart.toString());
+
+            if (Helper.verify(currentChart)) {
+                logger.info(currentChart.getSteps());
+                logger.info(currentChart.getStepsCount());
+                return true;
+            }
+
+            if (Integer.parseInt(currentChart.getStepsCount()) <= 20) {
+                for (Table neighbour : adjacencyList.get(currentChart)) {
+                    if (!visited.contains(neighbour)) {
+
+                        logger.info("neigbour: " + neighbour.toString());
+
+                        fillAdjacencyList(neighbour);
+                        visited.add(neighbour);
+                        queue.add(neighbour);
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        return false;
     }
 
 

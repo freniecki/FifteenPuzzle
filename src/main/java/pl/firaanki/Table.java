@@ -1,7 +1,6 @@
 package pl.firaanki;
 
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 public class Table {
 
@@ -17,8 +16,6 @@ public class Table {
     private static final int Y_SIZE = 4;
 
     private String steps = "";
-
-    Logger logger = Logger.getLogger(getClass().getName());
 
     Table(int[][] chart, String steps) {
         this.chart = chart;
@@ -130,8 +127,10 @@ public class Table {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append('\n');
         for (int i = 0; i < X_SIZE; i++) {
             stringBuilder.append(Arrays.toString(chart[i]));
+            stringBuilder.append('\n');
         }
         return stringBuilder.toString();
     }
