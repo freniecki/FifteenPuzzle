@@ -39,4 +39,16 @@ class BFSTest {
 
         Assertions.assertTrue(model.bfs(table));
     }
+
+    @Test
+    void bfsFile() {
+        char[] order = {'L', 'R', 'U', 'D'};
+        BFS model = new BFS(order);
+
+        Table table = FileDaoFactory.getFile(
+                        "/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/4x4_05_00006.txt")
+                .read();
+
+        Assertions.assertTrue(model.bfs(table));
+    }
 }

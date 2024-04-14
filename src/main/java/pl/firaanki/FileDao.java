@@ -32,7 +32,7 @@ public class FileDao {
 
             int[][] chart = new int[xSize][ySize];
             for (int i = 0; i < xSize; i++) {
-                String[] string = array.get(i+1).split(" ");
+                String[] string = array.get(i + 1).split(" ");
                 for (int j = 0; j < ySize; j++) {
                     chart[i][j] = Integer.parseInt(string[j]);
                 }

@@ -48,7 +48,7 @@ public class DFS {
         visited.add(chartToSolve);
         stack.addFirst(chartToSolve);
 
-        while(!stack.isEmpty()) {
+        while (!stack.isEmpty()) {
             Table currentChart = stack.removeFirst();
 
             if (Integer.parseInt(currentChart.getStepsCount()) > 20) {
@@ -58,26 +58,23 @@ public class DFS {
             logger.info("current: " + currentChart.toString());
             logger.info("current steps: " + currentChart.getSteps());
 
-
             if (Helper.verify(currentChart)) {
                 logger.info(currentChart.getSteps());
                 logger.info(currentChart.getStepsCount());
                 return true;
             }
 
-                for (Table neighbour : adjacencyList.get(currentChart)) {
-                    if (!visited.contains(neighbour)) {
+            for (Table neighbour : adjacencyList.get(currentChart)) {
+                if (!visited.contains(neighbour)) {
 
-                        logger.info("neigbour: " + neighbour.toString());
+                    logger.info("neigbour: " + neighbour.toString());
 
-                        fillAdjacencyList(neighbour);
-                        visited.add(neighbour);
-                        stack.addFirst(neighbour);
-                        break;
-                    }
+                    fillAdjacencyList(neighbour);
+                    visited.add(neighbour);
+                    stack.addFirst(neighbour);
+                    break;
                 }
-
-
+            }
         }
 
         return false;
