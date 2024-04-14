@@ -52,9 +52,6 @@ public class BFS {
         while (!queue.isEmpty()) {
             Table currentChart = queue.poll();
 
-            logger.info("current: " + currentChart.toString());
-
-
             if (Helper.verify(currentChart)) {
                 logger.info(currentChart.getSteps());
                 logger.info(currentChart.getStepsCount());
@@ -63,9 +60,6 @@ public class BFS {
 
             for (Table neighbour : adjacencyList.get(currentChart)) {
                 if (!visited.contains(neighbour)) {
-
-                    logger.info("neigbour: " + neighbour.toString());
-
                     fillAdjacencyList(neighbour);
                     visited.add(neighbour);
                     queue.add(neighbour);
