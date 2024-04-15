@@ -21,7 +21,7 @@ public class AStar {
         }
     }
 
-    void addEdge(Table parent, Table child) {
+    private void addEdge(Table parent, Table child) {
         adjacencyList.putIfAbsent(parent, new ArrayList<>());
         adjacencyList.putIfAbsent(child, new ArrayList<>());
         adjacencyList.get(parent).add(child);

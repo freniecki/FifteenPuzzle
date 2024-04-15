@@ -46,6 +46,11 @@ public class DFS {
         while (!stack.isEmpty()) {
             Table currentChart = stack.pop();
 
+            if (containsChart(currentChart.getChart())) {
+                logger.info("i fcked up");
+                return false;
+            }
+
             if (Integer.parseInt(currentChart.getStepsCount()) > depth) {
                 continue;
             }
@@ -65,6 +70,15 @@ public class DFS {
             }
         }
 
+        return false;
+    }
+
+    private boolean containsChart(int[][] chart) {
+        for (Table t : adjacencyList.keySet()) {
+            if (t.getChart() == chart) {
+                return true;
+            }
+        }
         return false;
     }
 
