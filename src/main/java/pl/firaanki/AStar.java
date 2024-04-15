@@ -11,6 +11,16 @@ public class AStar {
     boolean metrics = false;
     Logger logger = Logger.getLogger(getClass().getName());
 
+    AStar(String metrics) {
+        if ("manhattan".equals(metrics)) {
+            this.metrics = false;
+        } else if ("hamming".equals(metrics)) {
+            this.metrics = true;
+        } else {
+            logger.info("metrics default: manhattan");
+        }
+    }
+
     void addEdge(Table parent, Table child) {
         adjacencyList.putIfAbsent(parent, new ArrayList<>());
         adjacencyList.putIfAbsent(child, new ArrayList<>());
@@ -40,21 +50,18 @@ public class AStar {
     public Set<Double> getKeys(Map<Double, Table> map, Table value) {
         Set<Double> keys = new HashSet<>();
         for (Map.Entry<Double, Table> entry : map.entrySet()) {
-            if (entry.getValue().equals(value)) {
+            if (Objects.equals(entry.getValue(), value)) {
                 keys.add(entry.getKey());
             }
         }
         return keys;
     }
 
-    Double getMinFromSet(Set<Double> set) {
-        Double min = set.iterator().next();
-        for (Double d : set) {
-            if (min > d) {
-                min = d;
-            }
+    public Double getMinFromSet(Set<Double> set) {
+        if (set.isEmpty()) {
+            return null;
         }
-        return min;
+        return Collections.min(set);
     }
 
     public boolean solve(Table chartToSolve) {
@@ -78,9 +85,15 @@ public class AStar {
             for (Table neighbour : adjacencyList.get(currentChart)) {
                 double distance = getDistance(neighbour);
 
-                if (getMinFromSet(getKeys(openList, neighbour)) > distance
-                        && getMinFromSet(getKeys(closedList, neighbour)) > distance) {
+                if (getMinFromSet(getKeys(openList, neighbour)) > distance) {
+                    continue;
+                }
+
+                if (!closedList.isEmpty()
+                        && (getMinFromSet(getKeys(closedList, neighbour)) > distance)) {
+
                     openList.put(distance, neighbour);
+
                 }
             }
 
@@ -91,11 +104,7 @@ public class AStar {
     }
 
     Double getDistance(Table table) {
-        if (metrics) {
-            return table.getHammingValue();
-        } else {
-            return table.getManhattanValue();
-        }
+        return metrics ? table.getManhattanValue() : table.getHammingValue();
     }
 
 }

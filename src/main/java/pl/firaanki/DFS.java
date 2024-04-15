@@ -22,7 +22,7 @@ public class DFS {
     }
 
     void fillAdjacencyList(Table chartToSolve) {
-        for (int i = 3; i >= 0; i--) {
+        for (int i = 0; i < 4; i++) {
             Table neighbour = chartToSolve.moveTile(order[i]);
 
             if (neighbour != null) {
@@ -38,12 +38,14 @@ public class DFS {
         fillAdjacencyList(chartToSolve);
 
         visited.add(chartToSolve);
-        stack.addFirst(chartToSolve);
+        stack.push(chartToSolve);
+
+        logger.info("base: " + chartToSolve.toString());
 
         while (!stack.isEmpty()) {
-            Table currentChart = stack.removeFirst();
+            Table currentChart = stack.pop();
 
-            if (Integer.parseInt(currentChart.getStepsCount()) > 20) {
+            if (Integer.parseInt(currentChart.getStepsCount()) > 25) {
                 continue;
             }
 
@@ -53,14 +55,19 @@ public class DFS {
                 return true;
             }
 
-            for (Table neighbour : adjacencyList.get(currentChart)) {
+            for (Table neighbour : adjacencyList.get(currentChart).reversed()) {
                 if (!visited.contains(neighbour)) {
+
+                    logger.info("neighbour: " + neighbour.toString());
+
                     fillAdjacencyList(neighbour);
                     visited.add(neighbour);
-                    stack.addFirst(neighbour);
-                    break;
+                    stack.push(neighbour);
                 }
             }
+
+            logger.info(currentChart.getSteps());
+            logger.info(currentChart.getStepsCount());
         }
 
         return false;

@@ -18,8 +18,8 @@ public class FileDao {
 
     public Table read() {
         try {
-            File myObj = new File(fileName);
-            Scanner myReader = new Scanner(myObj);
+            File file = new File(fileName);
+            Scanner myReader = new Scanner(file);
             List<String> array = new ArrayList<>();
 
             while (myReader.hasNextLine()) {
@@ -43,8 +43,34 @@ public class FileDao {
             return new Table(chart, "");
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.info("raed exception");
         }
         return null;
     }
+
+    public void write(List<String> message) {
+        try {
+            File file = new File(fileName);
+
+            if (file.createNewFile()) {
+                FileWriter myWriter = new FileWriter(fileName);
+
+                while (!message.isEmpty()) {
+                    String line = message.getFirst();
+                    message.removeFirst();
+                    myWriter.write(line);
+                }
+
+                myWriter.close();
+
+            } else {
+                logger.info("file already exist");
+            }
+
+
+        } catch (IOException e) {
+            logger.info("cannot write to file");
+        }
+    }
+
 }
