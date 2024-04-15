@@ -15,14 +15,6 @@ public class DFS {
         System.arraycopy(order, 0, this.order, 0, 4);
     }
 
-    public Map<Table, List<Table>> getAdjacencyList() {
-        return adjacencyList;
-    }
-
-    public char[] getOrder() {
-        return order;
-    }
-
     void addEdge(Table parent, Table child) {
         adjacencyList.putIfAbsent(parent, new ArrayList<>());
         adjacencyList.putIfAbsent(child, new ArrayList<>());
@@ -55,9 +47,6 @@ public class DFS {
                 continue;
             }
 
-            logger.info("current: " + currentChart.toString());
-            logger.info("current steps: " + currentChart.getSteps());
-
             if (Helper.verify(currentChart)) {
                 logger.info(currentChart.getSteps());
                 logger.info(currentChart.getStepsCount());
@@ -66,9 +55,6 @@ public class DFS {
 
             for (Table neighbour : adjacencyList.get(currentChart)) {
                 if (!visited.contains(neighbour)) {
-
-                    logger.info("neigbour: " + neighbour.toString());
-
                     fillAdjacencyList(neighbour);
                     visited.add(neighbour);
                     stack.addFirst(neighbour);

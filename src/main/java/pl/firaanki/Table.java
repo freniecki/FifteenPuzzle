@@ -42,10 +42,10 @@ public class Table {
         return newChart;
     }
 
-    int getXZeroPosition() {
+    int getXPosition(int n) {
         for (int i = 0; i < X_SIZE; i++) {
             for (int j = 0; j < Y_SIZE; j++) {
-                if (chart[i][j] == 0) {
+                if (chart[i][j] == n) {
                     return i;
                 }
             }
@@ -53,10 +53,10 @@ public class Table {
         return -1;
     }
 
-    int getYZeroPosition() {
+    int getYPosition(int n) {
         for (int i = 0; i < X_SIZE; i++) {
             for (int j = 0; j < Y_SIZE; j++) {
-                if (chart[i][j] == 0) {
+                if (chart[i][j] == n) {
                     return j;
                 }
             }
@@ -80,8 +80,8 @@ public class Table {
             return null;
         }
 
-        int xZero = getXZeroPosition();
-        int yZero = getYZeroPosition();
+        int xZero = getXPosition(0);
+        int yZero = getYPosition(0);
 
         Table newTab = new Table(this.getChart(), steps);
 
@@ -138,6 +138,36 @@ public class Table {
 
     String getStepsCount() {
         return String.valueOf(steps.length());
+    }
+
+    public Double getHammingValue() {
+        Double hamming = 0.0;
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (chart[i][j] != PATTERN_CHART[i][j]) {
+                    hamming++;
+                }
+            }
+        }
+
+        return hamming;
+    }
+
+    public Double getManhattanValue() {
+        double manhattan = 0.0;
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (chart[i][j] != PATTERN_CHART[i][j]) {
+                    int xBasePosition = getXPosition(PATTERN_CHART[i][j]);
+                    int yBasePosition = getYPosition(PATTERN_CHART[i][j]);
+                    manhattan = (double) Math.abs(i - xBasePosition) + (double) Math.abs(j - yBasePosition);
+                }
+            }
+        }
+
+        return manhattan;
     }
 
     @Override

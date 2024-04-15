@@ -39,12 +39,12 @@ class TableTest {
 
     @Test
     void getXZeroPosition() {
-        Assertions.assertEquals(2, table.getXZeroPosition());
+        Assertions.assertEquals(2, table.getXPosition(0));
     }
 
     @Test
     void getYZeroPosition() {
-        Assertions.assertEquals(2, table.getYZeroPosition());
+        Assertions.assertEquals(2, table.getYPosition(0));
     }
 
     @Test
@@ -87,4 +87,13 @@ class TableTest {
     }
 
 
+    @Test
+    void getHammingValue() {
+        Assertions.assertEquals(3, table.getHammingValue());
+    }
+
+    @Test
+    void getManhattanValue() {
+        Assertions.assertEquals(2, table.getManhattanValue());
+    }
 }

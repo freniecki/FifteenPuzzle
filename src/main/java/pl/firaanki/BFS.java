@@ -15,10 +15,6 @@ public class BFS {
         System.arraycopy(order, 0, this.order, 0, 4);
     }
 
-    public Map<Table, List<Table>> getAdjacencyList() {
-        return adjacencyList;
-    }
-
     public char[] getOrder() {
         return order;
     }
