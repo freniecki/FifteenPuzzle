@@ -16,14 +16,6 @@ class BFSTest {
     }
 
     @Test
-    void getOrder() {
-        char[] order = {'L', 'R', 'U', 'D'};
-        BFS BFS = new BFS(order);
-
-        Assertions.assertArrayEquals(order, BFS.getOrder());
-    }
-
-    @Test
     void bfs() {
         char[] order = {'L', 'R', 'U', 'D'};
         BFS model = new BFS(order);

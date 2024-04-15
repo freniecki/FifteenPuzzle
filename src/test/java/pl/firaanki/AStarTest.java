@@ -10,22 +10,6 @@ import java.util.Set;
 class AStarTest {
 
     @Test
-    void solve() {
-
-        int[][] test = {
-                {1, 2, 3, 4},
-                {5, 6, 7, 8},
-                {9, 10, 0, 12},
-                {13, 14, 11, 15}
-        };
-
-        Table table = new Table(test, "");
-        AStar astar = new AStar("manhattan");
-
-        Assertions.assertTrue(astar.solve(table));
-    }
-
-    @Test
     void getKeys() {
         AStar astar = new AStar("manhattan");
         Map<Double, Table> map = new HashMap<>();
@@ -44,6 +28,22 @@ class AStarTest {
         Table tab = new Table(test, "");
         Set<Double> keys = astar.getKeys(map, tab);
 
-        System.out.println("Keys for value 'B': " + keys);
+        Assertions.assertEquals(3, keys.size());
+    }
+
+    @Test
+    void solve() {
+
+        int[][] test = {
+                {1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 0, 12},
+                {13, 14, 11, 15}
+        };
+
+        Table table = new Table(test, "");
+        AStar astar = new AStar("manhattan");
+
+        Assertions.assertTrue(astar.solve(table));
     }
 }

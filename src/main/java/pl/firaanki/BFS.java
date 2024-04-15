@@ -10,13 +10,9 @@ public class BFS {
     private final char[] order = new char[4];
 
     Logger logger = Logger.getLogger(getClass().getName());
-    /* --------------------------------------------------------------------- */
+
     BFS(char[] order) {
         System.arraycopy(order, 0, this.order, 0, 4);
-    }
-
-    public char[] getOrder() {
-        return order;
     }
 
     void addEdge(Table parent, Table child) {

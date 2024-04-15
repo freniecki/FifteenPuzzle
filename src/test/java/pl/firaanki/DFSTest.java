@@ -10,7 +10,7 @@ class DFSTest {
     @Test
     void dfs() {
         char[] order = {'L', 'R', 'U', 'D'};
-        DFS model = new DFS(order);
+        DFS model = new DFS(order, 5);
 
         int[][] test = {
                 {1, 2, 3, 4},
@@ -27,7 +27,7 @@ class DFSTest {
     @Test
     void dfsFile() {
         char[] order = {'L', 'R', 'U', 'D'};
-        DFS model = new DFS(order);
+        DFS model = new DFS(order, 7);
 
         Table table = FileDaoFactory.getFile(
                 "/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/4x4_05_00006.txt")

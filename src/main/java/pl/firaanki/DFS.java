@@ -9,10 +9,13 @@ public class DFS {
 
     private final char[] order = new char[4];
 
+    protected int depth;
+
     Logger logger = Logger.getLogger(getClass().getName());
 
-    DFS(char[] order) {
+    DFS(char[] order, int depth) {
         System.arraycopy(order, 0, this.order, 0, 4);
+        this.depth = depth;
     }
 
     void addEdge(Table parent, Table child) {
@@ -40,12 +43,10 @@ public class DFS {
         visited.add(chartToSolve);
         stack.push(chartToSolve);
 
-        logger.info("base: " + chartToSolve.toString());
-
         while (!stack.isEmpty()) {
             Table currentChart = stack.pop();
 
-            if (Integer.parseInt(currentChart.getStepsCount()) > 25) {
+            if (Integer.parseInt(currentChart.getStepsCount()) > depth) {
                 continue;
             }
 
@@ -57,17 +58,11 @@ public class DFS {
 
             for (Table neighbour : adjacencyList.get(currentChart).reversed()) {
                 if (!visited.contains(neighbour)) {
-
-                    logger.info("neighbour: " + neighbour.toString());
-
                     fillAdjacencyList(neighbour);
                     visited.add(neighbour);
                     stack.push(neighbour);
                 }
             }
-
-            logger.info(currentChart.getSteps());
-            logger.info(currentChart.getStepsCount());
         }
 
         return false;
