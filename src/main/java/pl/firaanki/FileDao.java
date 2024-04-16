@@ -49,25 +49,11 @@ public class FileDao {
     }
 
     public void write(List<String> message) {
-        try {
-            File file = new File(fileName);
-
-            if (file.createNewFile()) {
-                FileWriter myWriter = new FileWriter(fileName);
-
-                while (!message.isEmpty()) {
-                    String line = message.getFirst();
-                    message.removeFirst();
-                    myWriter.write(line);
-                }
-
-                myWriter.close();
-
-            } else {
-                logger.info("file already exist");
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            for (String line : message) {
+                oos.writeObject(line);
             }
-
-
+            logger.info("written to file");
         } catch (IOException e) {
             logger.info("cannot write to file");
         }
