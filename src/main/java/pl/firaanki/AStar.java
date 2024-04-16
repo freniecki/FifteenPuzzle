@@ -13,11 +13,11 @@ public class AStar {
 
     AStar(String metrics) {
         if ("manhattan".equals(metrics)) {
-            this.metrics = false;
-        } else if ("hamming".equals(metrics)) {
             this.metrics = true;
+        } else if ("hamming".equals(metrics)) {
+            this.metrics = false;
         } else {
-            logger.info("metrics default: manhattan");
+            logger.info("default metrics: hamming");
         }
     }
 
@@ -59,7 +59,7 @@ public class AStar {
 
     public Double getMinFromSet(Set<Double> set) {
         if (set.isEmpty()) {
-            return null;
+            return Double.MAX_VALUE;
         }
         return Collections.min(set);
     }
@@ -68,33 +68,42 @@ public class AStar {
 
         Map<Double, Table> openList = new HashMap<>();
         Map<Double, Table> closedList = new HashMap<>();
-
         openList.put(0.0, chartToSolve);
 
         while (!openList.isEmpty()) {
-            Table currentChart = openList.get(getMinFromSet(openList.keySet()));
+            Double currentKey = getMinFromSet(openList.keySet());
+            Table currentChart = openList.get(currentKey);
+            openList.remove(currentKey, currentChart);
 
             if (Helper.verify(currentChart)) {
                 logger.info(currentChart.getSteps());
                 logger.info(currentChart.getStepsCount());
                 return true;
             }
+            closedList.put(0.0, currentChart);
 
             fillAdjacencyList(currentChart);
 
+            // check neighbour states and
             for (Table neighbour : adjacencyList.get(currentChart)) {
+                if (Helper.verify(neighbour)) {
+                    logger.info(neighbour.getSteps());
+                    logger.info(neighbour.getStepsCount());
+                    return true;
+                }
+
+                fillAdjacencyList(neighbour);
                 double distance = getDistance(neighbour);
 
-                if (getMinFromSet(getKeys(openList, neighbour)) > distance) {
+                //if state is in openList and has lower distance -> skip neighbour
+                //if state is in closedList and has lower distance -> skip neighbour
+                if (getMinFromSet(getKeys(openList, neighbour)) < distance
+                        || getMinFromSet(getKeys(closedList, neighbour)) < distance) {
                     continue;
                 }
 
-                if (!closedList.isEmpty()
-                        && (getMinFromSet(getKeys(closedList, neighbour)) > distance)) {
-
-                    openList.put(distance, neighbour);
-
-                }
+                // if distance is lower than in lists or it/'s not in lists -> add neighbour
+                openList.put(distance, neighbour);
             }
 
             closedList.put(getDistance(currentChart), currentChart);

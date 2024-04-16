@@ -68,7 +68,17 @@ class AStarTest {
         };
 
         Table table = new Table(test, "");
-        AStar astar = new AStar("manhattan");
+        AStar astar = new AStar("hamming");
+
+        Assertions.assertTrue(astar.solve(table));
+    }
+
+    @Test
+    void solveFile() {
+        Table table = FileDaoFactory.getFile(
+                        "/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/4x4_05_00006.txt")
+                .read();
+        AStar astar = new AStar("hamming");
 
         Assertions.assertTrue(astar.solve(table));
     }
