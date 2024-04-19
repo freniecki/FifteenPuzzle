@@ -1,5 +1,7 @@
 package pl.firaanki;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -9,9 +11,11 @@ public class DFS {
 
     private final char[] order = new char[4];
 
-    protected int depth;
+    private final int depth;
 
     Logger logger = Logger.getLogger(getClass().getName());
+
+    private final List<String> results = new ArrayList<>();
 
     DFS(char[] order, int depth) {
         System.arraycopy(order, 0, this.order, 0, 4);
@@ -34,9 +38,11 @@ public class DFS {
         }
     }
 
-    public boolean dfs(Table chartToSolve) {
+    public boolean solve(Table chartToSolve) {
+        Instant start = Instant.now();
         Deque<Table> stack = new LinkedList<>();
         Set<Table> visited = new HashSet<>();
+        int maxDepthRecursion = 0;
 
         fillAdjacencyList(chartToSolve);
 
@@ -56,8 +62,14 @@ public class DFS {
             }
 
             if (Helper.verify(currentChart)) {
-                logger.info(currentChart.getSteps());
-                logger.info(currentChart.getStepsCount());
+                Instant stop = Instant.now();
+                long timeElapsed = Duration.between(start, stop).toMillis();
+                prepareResults(currentChart,
+                        String.valueOf(timeElapsed),
+                        String.valueOf(visited.size() - stack.size()),
+                        String.valueOf(visited.size()),
+                        String.valueOf(maxDepthRecursion)
+                );
                 return true;
             }
 
@@ -71,6 +83,22 @@ public class DFS {
         }
 
         return false;
+    }
+
+    void prepareResults(Table currentChart, String timeElapsed,
+                        String visitedStates, String processedStates, String maxDepthRecursion) {
+        //---to solution file: count and steps------
+        results.add(currentChart.getSteps());
+        results.add(currentChart.getStepsCount());
+        //----to stats file----------------
+        results.add(visitedStates);
+        results.add(processedStates);
+        results.add(maxDepthRecursion);
+        results.add(timeElapsed);
+    }
+
+    List<String> getResults() {
+        return results;
     }
 
     private boolean containsChart(int[][] chart) {

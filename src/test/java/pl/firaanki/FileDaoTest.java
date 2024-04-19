@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static pl.firaanki.BFSTest.printMethod;
@@ -29,7 +28,7 @@ class FileDaoTest {
         char[] order = {'L', 'R', 'U', 'D'};
         BFS bfs = new BFS(order);
 
-        Assertions.assertTrue(bfs.bfs(test));
+        Assertions.assertTrue(bfs.solve(test));
     }
 
     @Test

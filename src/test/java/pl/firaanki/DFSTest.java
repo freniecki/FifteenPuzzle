@@ -3,8 +3,6 @@ package pl.firaanki;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class DFSTest {
 
     @Test
@@ -21,7 +19,7 @@ class DFSTest {
 
         Table table = new Table(test, "");
 
-        Assertions.assertTrue(model.dfs(table));
+        Assertions.assertTrue(model.solve(table));
     }
 
     @Test
@@ -33,6 +31,6 @@ class DFSTest {
                 "/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/4x4_05_00006.txt")
                 .read();
 
-        Assertions.assertTrue(model.dfs(table));
+        Assertions.assertTrue(model.solve(table));
     }
 }

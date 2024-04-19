@@ -49,9 +49,29 @@ public class FileDao {
     }
 
     public void write(List<String> message) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+        String filePath = new File(fileName).getAbsolutePath();
+        logger.info(filePath);
+        File file = new File(filePath);
+
+        try {
+            if (file.exists()) {
+                logger.info("file exist");
+            } else {
+                if (file.createNewFile()) {
+                    logger.info("file created");
+                } else {
+                    logger.info("cannot create file");
+                }
+            }
+        } catch (IOException e) {
+            logger.info("error when creating file");
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+
             for (String line : message) {
-                oos.writeObject(line);
+                writer.write(line);
+                writer.write('\n');
             }
             logger.info("written to file");
         } catch (IOException e) {

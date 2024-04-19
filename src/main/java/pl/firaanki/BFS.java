@@ -1,5 +1,7 @@
 package pl.firaanki;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -10,6 +12,8 @@ public class BFS {
     private final char[] order = new char[4];
 
     Logger logger = Logger.getLogger(getClass().getName());
+
+    private final List<String> results = new ArrayList<>();
 
     BFS(char[] order) {
         System.arraycopy(order, 0, this.order, 0, 4);
@@ -31,10 +35,11 @@ public class BFS {
         }
     }
 
-    public boolean bfs(Table chartToSolve) {
-
+    public boolean solve(Table chartToSolve) {
+        Instant start = Instant.now();
         Queue<Table> queue = new LinkedList<>();
         Set<Table> visited = new HashSet<>();
+        int maxDepthRecursion = 0;
 
         fillAdjacencyList(chartToSolve);
 
@@ -45,8 +50,14 @@ public class BFS {
             Table currentChart = queue.poll();
 
             if (Helper.verify(currentChart)) {
-                logger.info(currentChart.getSteps());
-                logger.info(currentChart.getStepsCount());
+                Instant stop = Instant.now();
+                long timeElapsed = Duration.between(start, stop).toMillis();
+                prepareResults(currentChart,
+                        String.valueOf(timeElapsed),
+                        String.valueOf(visited.size() - queue.size()),
+                        String.valueOf(visited.size()),
+                        String.valueOf(maxDepthRecursion)
+                );
                 return true;
             }
 
@@ -60,5 +71,20 @@ public class BFS {
         }
 
         return false;
+    }
+    void prepareResults(Table currentChart, String timeElapsed,
+                        String visitedStates, String processedStates, String maxDepthRecursion) {
+        //---to solution file: count and steps------
+        results.add(currentChart.getSteps());
+        results.add(currentChart.getStepsCount());
+        //----to stats file----------------
+        results.add(visitedStates);
+        results.add(processedStates);
+        results.add(maxDepthRecursion);
+        results.add(timeElapsed);
+    }
+
+    public List<String> getResults() {
+        return results;
     }
 }

@@ -1,5 +1,7 @@
 package pl.firaanki;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -10,11 +12,12 @@ public class AStar {
 
     boolean metrics = false;
     Logger logger = Logger.getLogger(getClass().getName());
+    private final List<String> results = new ArrayList<>();
 
     AStar(String metrics) {
-        if ("manhattan".equals(metrics)) {
+        if ("manh".equals(metrics)) {
             this.metrics = true;
-        } else if ("hamming".equals(metrics)) {
+        } else if ("hamm".equals(metrics)) {
             this.metrics = false;
         } else {
             logger.info("default metrics: hamming");
@@ -65,10 +68,12 @@ public class AStar {
     }
 
     public boolean solve(Table chartToSolve) {
-
+        Instant start = Instant.now();
         Map<Double, Table> openList = new HashMap<>();
         Map<Double, Table> closedList = new HashMap<>();
         openList.put(0.0, chartToSolve);
+        int visitedStates = 0;
+        int maxDepthRecursion = 0;
 
         while (!openList.isEmpty()) {
             Double currentKey = getMinFromSet(openList.keySet());
@@ -76,19 +81,30 @@ public class AStar {
             openList.remove(currentKey, currentChart);
 
             if (Helper.verify(currentChart)) {
-                logger.info(currentChart.getSteps());
-                logger.info(currentChart.getStepsCount());
+                Instant stop = Instant.now();
+                long timeElapsed = Duration.between(start, stop).toMillis();
+                prepareResults(currentChart,
+                        String.valueOf(timeElapsed),
+                        String.valueOf(visitedStates),
+                        String.valueOf(closedList.size()),
+                        String.valueOf(maxDepthRecursion)
+                );
                 return true;
             }
             closedList.put(0.0, currentChart);
 
             fillAdjacencyList(currentChart);
 
-            // check neighbour states and
             for (Table neighbour : adjacencyList.get(currentChart)) {
                 if (Helper.verify(neighbour)) {
-                    logger.info(neighbour.getSteps());
-                    logger.info(neighbour.getStepsCount());
+                    Instant stop = Instant.now();
+                    long timeElapsed = Duration.between(start, stop).toMillis();
+                    prepareResults(currentChart,
+                            String.valueOf(timeElapsed),
+                            String.valueOf(visitedStates),
+                            String.valueOf(closedList.size()),
+                            String.valueOf(maxDepthRecursion)
+                    );
                     return true;
                 }
 
@@ -110,6 +126,22 @@ public class AStar {
         }
 
         return false;
+    }
+
+    void prepareResults(Table currentChart, String timeElapsed,
+                        String visitedStates, String processedStates, String maxDepthRecursion) {
+        //---to solution file: count and steps------
+        results.add(currentChart.getSteps());
+        results.add(currentChart.getStepsCount());
+        //----to stats file----------------
+        results.add(visitedStates);
+        results.add(processedStates);
+        results.add(maxDepthRecursion);
+        results.add(timeElapsed);
+    }
+
+    List<String> getResults() {
+        return results;
     }
 
     Double getDistance(Table table) {

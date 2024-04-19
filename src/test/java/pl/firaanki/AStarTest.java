@@ -3,6 +3,8 @@ package pl.firaanki;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -80,6 +82,11 @@ class AStarTest {
                 .read();
         AStar astar = new AStar("hamming");
 
+        Instant start = Instant.now();
         Assertions.assertTrue(astar.solve(table));
+        Instant finish = Instant.now();
+
+        long timeElapsed = Duration.between(start, finish).toMillis();
+        System.out.println(timeElapsed);
     }
 }

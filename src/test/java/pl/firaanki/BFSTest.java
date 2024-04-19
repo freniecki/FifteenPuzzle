@@ -29,7 +29,7 @@ class BFSTest {
 
         Table table = new Table(test, "");
 
-        Assertions.assertTrue(model.bfs(table));
+        Assertions.assertTrue(model.solve(table));
     }
 
     @Test
@@ -41,6 +41,6 @@ class BFSTest {
                         "/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/4x4_05_00006.txt")
                 .read();
 
-        Assertions.assertTrue(model.bfs(table));
+        Assertions.assertTrue(model.solve(table));
     }
 }
