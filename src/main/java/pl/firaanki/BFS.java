@@ -49,6 +49,9 @@ public class BFS {
         while (!queue.isEmpty()) {
             Table currentChart = queue.poll();
 
+            if (Integer.parseInt(currentChart.getStepsCount()) > maxDepthRecursion) {
+                maxDepthRecursion = Integer.parseInt(currentChart.getStepsCount());
+            }
             if (Helper.verify(currentChart)) {
                 Instant stop = Instant.now();
                 long timeElapsed = Duration.between(start, stop).toMillis();

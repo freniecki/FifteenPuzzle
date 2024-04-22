@@ -11,15 +11,15 @@ import static pl.firaanki.BFSTest.printMethod;
 class FileDaoTest {
     @Test
     void read() {
-        Table test = FileDaoFactory.getFile(
-                        "/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/4x4_05_00006.txt")
+        Table test = FileDaoFactory
+                .getFile("/home/firaanki/IdeaProjects/SISE/src/test/java/pl/firaanki/4x4_06_00006.txt")
                 .read();
 
         printMethod(test);
 
         int[][] chart = {
-                {1, 2, 3, 4},
-                {0, 5, 6, 7},
+                {0, 1, 2, 4},
+                {5, 6, 3, 7},
                 {9, 10, 11, 8},
                 {13, 14, 15, 12}
         };
@@ -34,8 +34,8 @@ class FileDaoTest {
     @Test
     void write() {
         List<String> message = new ArrayList<>();
-        Table test = FileDaoFactory.getFile(
-                        "/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/4x4_05_00006.txt")
+        Table test = FileDaoFactory
+                .getFile("/home/firaanki/IdeaProjects/SISE/src/test/java/pl/firaanki/4x4_06_00006.txt")
                 .read();
 
         message.add("4 4\n");
@@ -52,7 +52,7 @@ class FileDaoTest {
         }
 
         FileDaoFactory
-                .getFile("/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/dupa.txt")
+                .getFile("/home/firaanki/IdeaProjects/SISE/src/test/java/pl/firaanki/saveToFile.txt")
                 .write(message);
     }
 }

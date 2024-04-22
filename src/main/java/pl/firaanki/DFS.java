@@ -61,6 +61,10 @@ public class DFS {
                 continue;
             }
 
+            if (Integer.parseInt(currentChart.getStepsCount()) > maxDepthRecursion) {
+                maxDepthRecursion = Integer.parseInt(currentChart.getStepsCount());
+            }
+
             if (Helper.verify(currentChart)) {
                 Instant stop = Instant.now();
                 long timeElapsed = Duration.between(start, stop).toMillis();

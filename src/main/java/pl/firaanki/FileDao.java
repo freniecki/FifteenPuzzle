@@ -78,5 +78,4 @@ public class FileDao {
             logger.info("cannot write to file");
         }
     }
-
 }

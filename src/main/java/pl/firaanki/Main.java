@@ -33,9 +33,8 @@ public class Main {
             logger.warning("first argument is not correct");
 
         } else if (strategy.equals("astar")) {
-            if (!Objects.equals(mode, "manh") || !Objects.equals(mode, "hamm")) {
+            if (!Objects.equals(mode, "manh") && !Objects.equals(mode, "hamm")) {
                 logger.info("mode for astar is not correct");
-
             } else if (mode.equals("manh")) {
                 runAStar(mode, sourceFile, solutionFile, statsFile);
 
@@ -79,8 +78,8 @@ public class Main {
         } else {
             logger.info("BFS succeeded!");
             List<String> results = bfs.getResults();
-            FileDaoFactory.getFile(solutionFile).write(results.subList(0, 1));
-            results.remove(1);
+            FileDaoFactory.getFile(solutionFile).write(results.subList(0, 2));
+            results.removeFirst();
             FileDaoFactory.getFile(statsFile).write(results);
         }
     }
@@ -103,8 +102,8 @@ public class Main {
         } else {
             logger.info("DFS succeeded!");
             List<String> results = dfs.getResults();
-            FileDaoFactory.getFile(solutionFile).write(results.subList(0, 1));
-            results.remove(1);
+            FileDaoFactory.getFile(solutionFile).write(results.subList(0, 2));
+            results.removeFirst();
             FileDaoFactory.getFile(statsFile).write(results);
         }
     }
@@ -125,8 +124,8 @@ public class Main {
         } else {
             logger.info("A* succeeded!");
             List<String> results = aStar.getResults();
-            FileDaoFactory.getFile(solutionFile).write(results.subList(0, 1));
-            results.remove(1);
+            FileDaoFactory.getFile(solutionFile).write(results.subList(0, 2));
+            results.removeFirst();
             FileDaoFactory.getFile(statsFile).write(results);
         }
     }

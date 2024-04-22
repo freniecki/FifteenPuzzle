@@ -70,9 +70,10 @@ class AStarTest {
         };
 
         Table table = new Table(test, "");
-        AStar astar = new AStar("hamming");
+        AStar astar = new AStar("manh");
 
         Assertions.assertTrue(astar.solve(table));
+        System.out.println(astar.getResults());
     }
 
     @Test

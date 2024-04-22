@@ -80,6 +80,10 @@ public class AStar {
             Table currentChart = openList.get(currentKey);
             openList.remove(currentKey, currentChart);
 
+            if (Integer.parseInt(currentChart.getStepsCount()) > maxDepthRecursion) {
+                maxDepthRecursion = Integer.parseInt(currentChart.getStepsCount());
+            }
+
             if (Helper.verify(currentChart)) {
                 Instant stop = Instant.now();
                 long timeElapsed = Duration.between(start, stop).toMillis();
@@ -96,10 +100,14 @@ public class AStar {
             fillAdjacencyList(currentChart);
 
             for (Table neighbour : adjacencyList.get(currentChart)) {
+                if (Integer.parseInt(neighbour.getStepsCount()) > maxDepthRecursion) {
+                    maxDepthRecursion = Integer.parseInt(neighbour.getStepsCount());
+                }
+
                 if (Helper.verify(neighbour)) {
                     Instant stop = Instant.now();
                     long timeElapsed = Duration.between(start, stop).toMillis();
-                    prepareResults(currentChart,
+                    prepareResults(neighbour,
                             String.valueOf(timeElapsed),
                             String.valueOf(visitedStates),
                             String.valueOf(closedList.size()),
