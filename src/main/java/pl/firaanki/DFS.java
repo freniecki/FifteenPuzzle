@@ -94,8 +94,8 @@ public class DFS {
     void prepareResults(Table currentChart, String timeElapsed,
                         String visitedStates, String processedStates, String maxDepthRecursion) {
         //---to solution file: count and steps------
-        results.add(currentChart.getSteps());
         results.add(currentChart.getStepsCount());
+        results.add(currentChart.getSteps());
         //----to stats file----------------
         results.add(visitedStates);
         results.add(processedStates);

@@ -140,6 +140,16 @@ public class Table {
         return String.valueOf(steps.length());
     }
 
+    /*
+    f - g + h
+    g - starting point to given position
+    h - given position to final destination
+
+    metrics:
+    Hamming - count of every number not in place
+    Manhattan - sum of count of steps for each number to be in place
+    */
+
     public Double getHammingValue() {
         Double hamming = 0.0;
 

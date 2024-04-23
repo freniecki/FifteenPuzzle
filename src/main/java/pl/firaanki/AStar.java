@@ -40,16 +40,6 @@ public class AStar {
         }
     }
 
-    /*
-    f - g + h
-    g - starting point to given position
-    h - given position to final destination
-
-    metrics:
-        Hamming - count of every number not in place
-        Manhattan - sum of count of steps for each number to be in place
-     */
-
     public Set<Double> getKeys(Map<Double, Table> map, Table value) {
         Set<Double> keys = new HashSet<>();
         for (Map.Entry<Double, Table> entry : map.entrySet()) {
@@ -139,8 +129,8 @@ public class AStar {
     void prepareResults(Table currentChart, String timeElapsed,
                         String visitedStates, String processedStates, String maxDepthRecursion) {
         //---to solution file: count and steps------
-        results.add(currentChart.getSteps());
         results.add(currentChart.getStepsCount());
+        results.add(currentChart.getSteps());
         //----to stats file----------------
         results.add(visitedStates);
         results.add(processedStates);
