@@ -95,7 +95,7 @@ public class AStar {
                 );
                 return true;
             }
-            closedList.put(0.0, currentChart);
+            closedList.put(currentKey, currentChart);
 
             fillAdjacencyList(currentChart);
 

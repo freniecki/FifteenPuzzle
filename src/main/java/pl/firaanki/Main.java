@@ -35,25 +35,18 @@ public class Main {
         } else if (strategy.equals("astar")) {
             if (!Objects.equals(mode, "manh") && !Objects.equals(mode, "hamm")) {
                 logger.info("mode for astar is not correct");
-            } else if (mode.equals("manh")) {
-                runAStar(mode, sourceFile, solutionFile, statsFile);
-
-            } else if (mode.equals("hamm")) {
-                runAStar(mode, sourceFile, solutionFile, statsFile);
             } else {
-                logger.info("second argument is not correct");
+                runAStar(mode, sourceFile, solutionFile, statsFile);
             }
         } else if (strategy.equals("dfs")) {
             if (!isModeCorrect(mode)) {
                 logger.info("order for dfs is not correct");
-
             } else {
                 runDFS(mode, sourceFile, solutionFile, statsFile);
             }
         } else {
             if (!isModeCorrect(mode)) {
                 logger.info("order for bfs is not correct");
-
             } else {
                 runBFS(mode, sourceFile, solutionFile, statsFile);
             }

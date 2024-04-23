@@ -7,8 +7,8 @@ class DFSTest {
 
     @Test
     void dfs() {
-        char[] order = {'L', 'R', 'U', 'D'};
-        DFS model = new DFS(order, 5);
+        char[] order = {'L', 'U', 'D', 'R'};
+        DFS model = new DFS(order, 20);
 
         int[][] test = {
                 {1, 2, 3, 4},
@@ -25,12 +25,29 @@ class DFSTest {
     @Test
     void dfsFile() {
         char[] order = {'L', 'R', 'U', 'D'};
-        DFS model = new DFS(order, 15);
+        DFS model = new DFS(order, 5);
 
         Table table = FileDaoFactory.getFile(
-                "/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/4x4_05_00006.txt")
+                "/home/firaanki/IS_4sem/SISE/puzzles/4x4_05_00006.txt")
                 .read();
 
         Assertions.assertTrue(model.solve(table));
+    }
+
+    @Test
+    void ludr() {
+        int[][] test = {
+                {1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 11, 0},
+                {13, 14, 15, 12}
+        };
+
+        Table table = new Table(test, "");
+
+        char[] order = {'L', 'U', 'D', 'R'};
+        DFS dfs = new DFS(order, 20);
+
+        Assertions.assertTrue(dfs.solve(table));
     }
 }
