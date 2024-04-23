@@ -107,6 +107,7 @@ public class AStar {
                 }
 
                 fillAdjacencyList(neighbour);
+                // wartość g dla distance
                 double distance = getDistance(neighbour);
 
                 //if state is in openList and has lower distance -> skip neighbour

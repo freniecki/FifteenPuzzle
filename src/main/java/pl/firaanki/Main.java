@@ -72,7 +72,7 @@ public class Main {
             logger.info("BFS succeeded!");
             List<String> results = bfs.getResults();
             FileDaoFactory.getFile(solutionFile).write(results.subList(0, 2));
-            results.removeFirst();
+            results.remove(1);
             FileDaoFactory.getFile(statsFile).write(results);
         }
     }
@@ -96,7 +96,7 @@ public class Main {
             logger.info("DFS succeeded!");
             List<String> results = dfs.getResults();
             FileDaoFactory.getFile(solutionFile).write(results.subList(0, 2));
-            results.removeFirst();
+            results.remove(1);
             FileDaoFactory.getFile(statsFile).write(results);
         }
     }
@@ -108,17 +108,17 @@ public class Main {
         if (!isSolved) {
             logger.info("A* failed!");
 
-            List<String> resultSolution = new ArrayList<>();
-            resultSolution.add("-1");
-            FileDaoFactory.getFile(solutionFile).write(resultSolution);
+            List<String> result = new ArrayList<>();
+            result.add("-1");
+            FileDaoFactory.getFile(solutionFile).write(result);
 
-            resultSolution.addAll(aStar.getResults().subList(2,5));
-            FileDaoFactory.getFile(statsFile).write(resultSolution);
+            result.addAll(aStar.getResults().subList(2,5));
+            FileDaoFactory.getFile(statsFile).write(result);
         } else {
             logger.info("A* succeeded!");
             List<String> results = aStar.getResults();
             FileDaoFactory.getFile(solutionFile).write(results.subList(0, 2));
-            results.removeFirst();
+            results.remove(1);
             FileDaoFactory.getFile(statsFile).write(results);
         }
     }
