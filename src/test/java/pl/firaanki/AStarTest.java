@@ -79,15 +79,11 @@ class AStarTest {
     @Test
     void solveFile() {
         Table table = FileDaoFactory.getFile(
-                        "/home/firaanki/IdeaProjects/SISE/src/main/java/pl/firaanki/4x4_05_00006.txt")
+                        "/home/firaanki/IS_4sem/SISE/puzzles/4x4_04_00003.txt")
                 .read();
         AStar astar = new AStar("hamming");
 
         Instant start = Instant.now();
         Assertions.assertTrue(astar.solve(table));
-        Instant finish = Instant.now();
-
-        long timeElapsed = Duration.between(start, finish).toMillis();
-        System.out.println(timeElapsed);
     }
 }

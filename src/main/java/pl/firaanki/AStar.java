@@ -107,8 +107,7 @@ public class AStar {
                 }
 
                 fillAdjacencyList(neighbour);
-                // wartość g dla distance
-                double distance = getDistance(neighbour);
+                double distance = getDistance(chartToSolve, neighbour);
 
                 //if state is in openList and has lower distance -> skip neighbour
                 //if state is in closedList and has lower distance -> skip neighbour
@@ -121,7 +120,7 @@ public class AStar {
                 openList.put(distance, neighbour);
             }
 
-            closedList.put(getDistance(currentChart), currentChart);
+            closedList.put(getDistance(chartToSolve, currentChart), currentChart);
         }
 
         return false;
@@ -143,8 +142,41 @@ public class AStar {
         return results;
     }
 
-    Double getDistance(Table table) {
-        return metrics ? table.getManhattanValue() : table.getHammingValue();
+    Double getDistance(Table current, Table neighbour) {
+        return metrics ? getManhattanStart(current, neighbour) + neighbour.getManhattanEnd()
+                : getHammingStart(current, neighbour) + neighbour.getHammingEnd();
     }
 
+    double getManhattanStart(Table current, Table neighbour) {
+        int[][] currentChart = current.getChart();
+        int[][] neighbourChart = neighbour.getChart();
+        double manhattan = 0.0;
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (currentChart[i][j] != neighbourChart[i][j]) {
+                    int xBasePosition = neighbour.getXPosition(currentChart[i][j]);
+                    int yBasePosition = neighbour.getYPosition(currentChart[i][j]);
+                    manhattan += (double) Math.abs(i - xBasePosition) + (double) Math.abs(j - yBasePosition);
+                }
+            }
+        }
+
+        return manhattan;
+    }
+
+    double getHammingStart(Table current, Table neighbour) {
+        int[][] tab1 = current.getChart();
+        int[][] tab2 = neighbour.getChart();
+        double hamming = 0.0;
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (tab1[i][j] != tab2[i][j]) {
+                    hamming++;
+                }
+            }
+        }
+        return hamming;
+    }
 }

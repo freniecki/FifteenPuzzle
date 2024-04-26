@@ -89,11 +89,11 @@ class TableTest {
 
     @Test
     void getHammingValue() {
-        Assertions.assertEquals(3, table.getHammingValue());
+        Assertions.assertEquals(3, table.getHammingEnd());
     }
 
     @Test
     void getManhattanValue() {
-        Assertions.assertEquals(2, table.getManhattanValue());
+        Assertions.assertEquals(2, table.getManhattanEnd());
     }
 }

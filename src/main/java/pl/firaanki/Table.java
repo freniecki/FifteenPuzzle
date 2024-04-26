@@ -150,7 +150,7 @@ public class Table {
     Manhattan - sum of count of steps for each number to be in place
     */
 
-    public Double getHammingValue() {
+    public Double getHammingEnd() {
         Double hamming = 0.0;
 
         for (int i = 0; i < 4; i++) {
@@ -164,7 +164,7 @@ public class Table {
         return hamming;
     }
 
-    public Double getManhattanValue() {
+    public Double getManhattanEnd() {
         double manhattan = 0.0;
 
         for (int i = 0; i < 4; i++) {
@@ -172,7 +172,7 @@ public class Table {
                 if (chart[i][j] != PATTERN_CHART[i][j]) {
                     int xBasePosition = getXPosition(PATTERN_CHART[i][j]);
                     int yBasePosition = getYPosition(PATTERN_CHART[i][j]);
-                    manhattan = (double) Math.abs(i - xBasePosition) + (double) Math.abs(j - yBasePosition);
+                    manhattan += (double) Math.abs(i - xBasePosition) + (double) Math.abs(j - yBasePosition);
                 }
             }
         }
