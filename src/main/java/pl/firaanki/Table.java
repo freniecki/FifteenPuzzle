@@ -15,6 +15,8 @@ public class Table {
     private static final int X_SIZE = 4;
     private static final int Y_SIZE = 4;
 
+    private Double distance = 0.0;
+
     private String steps = "";
 
     Table(int[][] chart, String steps) {
@@ -62,6 +64,14 @@ public class Table {
             }
         }
         return -1;
+    }
+
+    Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     boolean checkPreviousStep(char direction) {
@@ -149,6 +159,8 @@ public class Table {
     Hamming - count of every number not in place
     Manhattan - sum of count of steps for each number to be in place
     */
+
+
 
     public Double getHammingEnd() {
         Double hamming = 0.0;

@@ -52,8 +52,6 @@ public class DFS {
         while (!stack.isEmpty()) {
             Table currentChart = stack.pop();
 
-            logger.info(currentChart.toString());
-
             if (containsChart(currentChart.getChart())) {
                 logger.info("the same state error - look in stack?");
                 return false;
