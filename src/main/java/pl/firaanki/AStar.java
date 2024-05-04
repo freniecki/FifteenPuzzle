@@ -36,7 +36,6 @@ public class AStar {
         while (!priorityQueue.isEmpty()) {
             Table currentChart = priorityQueue.poll();
             visitedStates++;
-            logger.info(currentChart.toString());
 
             if (Integer.parseInt(currentChart.getStepsCount()) > maxDepthRecursion) {
                 maxDepthRecursion = Integer.parseInt(currentChart.getStepsCount());

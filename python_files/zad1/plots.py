@@ -112,4 +112,6 @@ def function(strategy, file_orders, mode_count, plot_title, barWidth):
         plot_graphs(stats_avg, value, kryterium[value], mode_count, plot_title, barWidth)
 
 
+function('bfs', file_orders_bfs, 8, 'BFS', 0.2)
+function('dfs', file_orders_bfs, 8, 'DFS', 0.2)
 function('astar', file_orders_astar, 2, 'A*', 0.2)
