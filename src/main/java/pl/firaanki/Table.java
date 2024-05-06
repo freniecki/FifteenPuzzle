@@ -1,6 +1,7 @@
 package pl.firaanki;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Table {
 
@@ -159,8 +160,6 @@ public class Table {
     Hamming - count of every number not in place
     Manhattan - sum of count of steps for each number to be in place
     */
-
-
 
     public Double getHammingEnd() {
         Double hamming = 0.0;

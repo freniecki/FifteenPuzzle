@@ -24,7 +24,6 @@ public class DFS {
 
     void addEdge(Table parent, Table child) {
         adjacencyList.putIfAbsent(parent, new ArrayList<>());
-        adjacencyList.putIfAbsent(child, new ArrayList<>());
         adjacencyList.get(parent).add(child);
     }
 
@@ -55,9 +54,9 @@ public class DFS {
                 continue;
             }
 
-//            String stringMessage = currentChart + currentChart.getSteps()
-//                    + '\n' + currentChart.getStepsCount();
-//            logger.info(stringMessage);
+            String stringMessage = currentChart + currentChart.getSteps()
+                    + '\n' + currentChart.getStepsCount();
+            logger.info(stringMessage);
 
             if (currentDepth > maxDepthRecursion) {
                 maxDepthRecursion = currentDepth;
@@ -75,17 +74,18 @@ public class DFS {
                 return true;
             }
 
+            visited.add(currentChart);
+
             if (currentDepth >= depth) {
                 continue;
             }
 
             for (Table neighbour : adjacencyList.get(currentChart).reversed()) {
-                if (neighbour != null && !containsChart(visited, neighbour.getChart())) {
+                if (!containsChart(visited, neighbour.getChart())) {
                     fillAdjacencyList(neighbour);
                     stack.push(neighbour);
                 }
             }
-            visited.add(currentChart);
         }
         return false;
     }

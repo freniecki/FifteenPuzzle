@@ -13,8 +13,8 @@ class DFSTest {
         int[][] test = {
                 {1, 2, 3, 4},
                 {5, 6, 7, 8},
-                {9, 10, 0, 12},
-                {13, 14, 11, 15}
+                {9, 10, 11, 0},
+                {13, 14, 15, 12}
         };
 
         Table table = new Table(test, "");
@@ -25,7 +25,7 @@ class DFSTest {
     @Test
     void dfsFile() {
         char[] order = {'L', 'R', 'U', 'D'};
-        DFS model = new DFS(order, 5);
+        DFS model = new DFS(order, 20);
 
         Table table = FileDaoFactory.getFile(
                 "/home/firaanki/IS_4sem/SISE/puzzles/4x4_05_00006.txt")
