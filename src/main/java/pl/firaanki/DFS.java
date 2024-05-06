@@ -45,24 +45,22 @@ public class DFS {
         int maxDepthRecursion = 0;
 
         fillAdjacencyList(chartToSolve);
-
-        visited.add(chartToSolve);
         stack.push(chartToSolve);
 
         while (!stack.isEmpty()) {
             Table currentChart = stack.pop();
+            int currentDepth = Integer.parseInt(currentChart.getStepsCount());
 
-            if (containsChart(currentChart.getChart())) {
-                logger.info("the same state error - look in stack?");
-                return false;
-            }
-
-            if (Integer.parseInt(currentChart.getStepsCount()) > depth) {
+            if (containsChart(visited, currentChart.getChart()) || currentDepth > depth) {
                 continue;
             }
 
-            if (Integer.parseInt(currentChart.getStepsCount()) > maxDepthRecursion) {
-                maxDepthRecursion = Integer.parseInt(currentChart.getStepsCount());
+            String stringMessage = currentChart + currentChart.getSteps()
+                    + '\n' + currentChart.getStepsCount();
+            logger.info(stringMessage);
+
+            if (currentDepth > maxDepthRecursion) {
+                maxDepthRecursion = currentDepth;
             }
 
             if (Helper.verify(currentChart)) {
@@ -78,15 +76,13 @@ public class DFS {
             }
 
             for (Table neighbour : adjacencyList.get(currentChart).reversed()) {
-                if (!visited.contains(neighbour)) {
+                if (neighbour != null && !containsChart(visited, neighbour.getChart())) {
                     fillAdjacencyList(neighbour);
-                    visited.add(neighbour);
                     stack.push(neighbour);
                 }
             }
-            logger.info(String.valueOf(currentChart));
+            visited.add(currentChart);
         }
-
         return false;
     }
 
@@ -106,15 +102,13 @@ public class DFS {
         return results;
     }
 
-    private boolean containsChart(int[][] chart) {
-        for (Table t : adjacencyList.keySet()) {
-            if (t.getChart() == chart) {
+    private boolean containsChart(Set<Table> visited, int[][] chart) {
+        for (Table t : visited) {
+            if (Arrays.deepEquals(t.getChart(), chart)) {
                 return true;
             }
         }
         return false;
     }
-
-
 
 }

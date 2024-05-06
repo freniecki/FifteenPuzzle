@@ -43,7 +43,7 @@ def compute_bfs():
 
 def compute_dfs():
     for file_name in file_names_list:
-        for i in range(8):
+        for i in range(8):  # count of orders
             draft_dfs = file_name[:-4] + '_dfs_' + file_orders[i] + '_'
             command_dfs = command + ' '
             command_dfs += strategy[1] + ' '

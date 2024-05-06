@@ -61,7 +61,7 @@ def count_avg(stats, mode_count):
     return stats_avg
 
 
-def plot_graphs(data, index, y_label, mode_count, plot_title, barWidth):
+def plot_graphs(data, index, y_label, mode_count, plot_title, barWidth, legends):
     colors = ['red', 'gray', 'brown', 'yellow', 'blue', 'green', 'violet', 'pink']
 
     for _ in range(7):
@@ -72,7 +72,7 @@ def plot_graphs(data, index, y_label, mode_count, plot_title, barWidth):
             for j in range(7):
                 work_data.append(data[order][j][index])
 
-            plt.bar(br, work_data, color=colors[order], width=barWidth, label=legends_astar[order])
+            plt.bar(br, work_data, color=colors[order], width=barWidth, label=legends[order])
             br = [x + barWidth for x in br]
         br.clear()
 
@@ -105,13 +105,13 @@ file_orders_astar = ['manh', 'hamm']
 legends_astar = ['Manhattan', 'Hamming']
 
 
-def function(strategy, file_orders, mode_count, plot_title, barWidth):
+def function(strategy, file_orders, mode_count, plot_title, barWidth, legends):
     stats = get_stats_decimal(strategy, file_orders, mode_count)
     stats_avg = count_avg(stats, mode_count)
     for value in range(0, 5):
-        plot_graphs(stats_avg, value, kryterium[value], mode_count, plot_title, barWidth)
+        plot_graphs(stats_avg, value, kryterium[value], mode_count, plot_title, barWidth, legends)
 
 
-function('bfs', file_orders_bfs, 8, 'BFS', 0.2)
-function('dfs', file_orders_bfs, 8, 'DFS', 0.2)
-function('astar', file_orders_astar, 2, 'A*', 0.2)
+# function('bfs', file_orders_bfs, 8, 'BFS', 0.1, orders)
+# function('dfs', file_orders_bfs, 8, 'DFS', 0.1, orders)
+function('astar', file_orders_astar, 2, 'A*', 0.2, legends_astar)
