@@ -51,13 +51,13 @@ public class DFS {
             Table currentChart = stack.pop();
             int currentDepth = Integer.parseInt(currentChart.getStepsCount());
 
-            if (containsChart(visited, currentChart.getChart()) || currentDepth > depth) {
+            if (containsChart(visited, currentChart.getChart())) {
                 continue;
             }
 
-            String stringMessage = currentChart + currentChart.getSteps()
-                    + '\n' + currentChart.getStepsCount();
-            logger.info(stringMessage);
+//            String stringMessage = currentChart + currentChart.getSteps()
+//                    + '\n' + currentChart.getStepsCount();
+//            logger.info(stringMessage);
 
             if (currentDepth > maxDepthRecursion) {
                 maxDepthRecursion = currentDepth;
@@ -73,6 +73,10 @@ public class DFS {
                         String.valueOf(maxDepthRecursion)
                 );
                 return true;
+            }
+
+            if (currentDepth >= depth) {
+                continue;
             }
 
             for (Table neighbour : adjacencyList.get(currentChart).reversed()) {
