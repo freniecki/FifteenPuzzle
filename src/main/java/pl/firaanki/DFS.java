@@ -84,6 +84,7 @@ public class DFS {
                     stack.push(neighbour);
                 }
             }
+            logger.info(String.valueOf(currentChart));
         }
 
         return false;
