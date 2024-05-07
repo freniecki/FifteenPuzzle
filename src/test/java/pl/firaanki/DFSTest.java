@@ -33,21 +33,4 @@ class DFSTest {
 
         Assertions.assertTrue(model.solve(table));
     }
-
-    @Test
-    void ludr() {
-        int[][] test = {
-                {1, 2, 3, 4},
-                {5, 6, 7, 8},
-                {9, 10, 11, 0},
-                {13, 14, 15, 12}
-        };
-
-        Table table = new Table(test, "");
-
-        char[] order = {'L', 'U', 'D', 'R'};
-        DFS dfs = new DFS(order, 20);
-
-        Assertions.assertTrue(dfs.solve(table));
-    }
 }

@@ -2,14 +2,18 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-# ./stats/4x4_07_00194_bfs_drlu_stats.txt
-# 7
-# 260
-# 543
-# 7
-# 29
-
 stats_dir = '/home/firaanki/IS_4sem/SISE/stats'
+
+orders = ['RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD']
+kryterium = ['Długość znalezionego rozwiązania', 'Liczba stanów odwiedzonych',
+             'Liczba stanów przetworzonych', 'Maksymalna osiągnięta głębokość rekursji',
+             'Czas trwania procesu obliczeniowego']
+
+file_orders_bfs = ['rdul', 'rdlu', 'drul', 'drlu', 'ludr', 'lurd', 'uldr', 'ulrd']
+file_orders_astar = ['manh', 'hamm']
+
+legends_astar = ['Manhattan', 'Hamming']
+legend_all = ['BFS', 'DFS', 'A*']
 
 
 def get_file_names(directory, pattern):
@@ -28,7 +32,6 @@ def get_stats_decimal(pattern, file_orders, mode_count):
         for i in range(mode_count):
             if file_orders[i] in file:
                 stats_by_orders[i].append(file)
-                continue
 
     stats_by_orders_decimal = [[[] for _ in range(len(stats_by_orders[i]))] for i in range(mode_count)]
 
@@ -61,7 +64,27 @@ def count_avg(stats, mode_count):
     return stats_avg
 
 
-def plot_graphs(data, index, y_label, mode_count, plot_title, barWidth, legends):
+def count_avg_all(stats, mode_count):
+    stats_avg = [[[0] * 5 for _ in range(7)] for _ in range(mode_count)]
+
+    for i in range(mode_count):  # for every order
+        count = [0] * 7  # list keeping added operation count
+        for sublist in stats[i]:  # for every record
+            depth_index = sublist[0] - 1
+            for j in range(1, 5):
+                stats_avg[i][depth_index][0] = sublist[0]
+                stats_avg[i][depth_index][j] += sublist[j]
+
+            count[depth_index] += 1
+
+        for j in range(len(stats_avg[i])):
+            for k in range(1, 5):
+                stats_avg[i][j][k] /= count[j]
+
+    return stats_avg
+
+
+def plot_graphs(data, index, y_label, mode_count, plot_title, bar_width, legends):
     colors = ['red', 'gray', 'brown', 'yellow', 'blue', 'green', 'violet', 'pink']
 
     for _ in range(7):
@@ -72,8 +95,8 @@ def plot_graphs(data, index, y_label, mode_count, plot_title, barWidth, legends)
             for j in range(7):
                 work_data.append(data[order][j][index])
 
-            plt.bar(br, work_data, color=colors[order], width=barWidth, label=legends[order])
-            br = [x + barWidth for x in br]
+            plt.bar(br, work_data, color=colors[order], width=bar_width, label=legends[order])
+            br = [x + bar_width for x in br]
         br.clear()
 
     handles, labels = plt.gca().get_legend_handles_labels()
@@ -87,7 +110,7 @@ def plot_graphs(data, index, y_label, mode_count, plot_title, barWidth, legends)
 
     plt.xlabel('Głębokość')
     plt.ylabel(y_label)
-    plt.xticks([r + barWidth for r in range(len(data[0]))],
+    plt.xticks([r + bar_width for r in range(len(data[0]))],
                ['1', '2', '3', '4', '5', '6', '7'])
     plt.title(plot_title)
     plt.legend(unique_handles, unique_labels)
@@ -95,23 +118,25 @@ def plot_graphs(data, index, y_label, mode_count, plot_title, barWidth, legends)
     plt.show()
 
 
-orders = ['RDUL', 'RDLU', 'DRUL', 'DRLU', 'LUDR', 'LURD', 'ULDR', 'ULRD']
-kryterium = ['Długość znalezionego rozwiązania', 'Liczba stanów odwiedzonych',
-             'Liczba stanów przetworzonych', 'Maksymalna osiągnięta głębokość rekursji',
-             'Czas trwania procesu obliczeniowego']
-file_orders_bfs = ['rdul', 'rdlu', 'drul', 'drlu', 'ludr', 'lurd', 'uldr', 'ulrd']
-file_orders_astar = ['manh', 'hamm']
-
-legends_astar = ['Manhattan', 'Hamming']
-
-
-def function(strategy, file_orders, mode_count, plot_title, barWidth, legends):
+def run_strategy(strategy, file_orders, mode_count, plot_title, bar_width, legends):
     stats = get_stats_decimal(strategy, file_orders, mode_count)
     stats_avg = count_avg(stats, mode_count)
     for value in range(0, 5):
-        plot_graphs(stats_avg, value, kryterium[value], mode_count, plot_title, barWidth, legends)
+        plot_graphs(stats_avg, value, kryterium[value], mode_count, plot_title, bar_width, legends)
+
+    return stats
 
 
-# function('bfs', file_orders_bfs, 8, 'BFS', 0.1, orders)
-# function('dfs', file_orders_bfs, 8, 'DFS', 0.1, orders)
-function('astar', file_orders_astar, 2, 'A*', 0.2, legends_astar)
+def run_all(stats, mode_count):
+    stats_avg_all = count_avg(stats, mode_count)
+    for value in range(0, 5):
+        plot_graphs(stats_avg_all, value, kryterium[value], 3, 'Ogółem', 0.2, legend_all)
+
+
+stats_bfs = run_strategy('bfs', file_orders_bfs, 8, 'BFS', 0.1, orders)
+# stats_dfs = run_strategy('dfs', file_orders_bfs, 8, 'DFS', 0.1, orders)
+stats_astar = run_strategy('astar', file_orders_astar, 2, 'A*', 0.2, legends_astar)
+
+stats_all = [stats_bfs, stats_bfs, stats_astar]
+
+run_all(stats_all, 3)

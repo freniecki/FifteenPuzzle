@@ -54,9 +54,9 @@ public class DFS {
                 continue;
             }
 
-            String stringMessage = currentChart + currentChart.getSteps()
-                    + '\n' + currentChart.getStepsCount();
-            logger.info(stringMessage);
+//            String stringMessage = currentChart + currentChart.getSteps()
+//                    + '\n' + currentChart.getStepsCount();
+//            logger.info(stringMessage);
 
             if (currentDepth > maxDepthRecursion) {
                 maxDepthRecursion = currentDepth;
