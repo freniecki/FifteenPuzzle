@@ -45,7 +45,6 @@ public class Table {
         return newChart;
     }
 
-    // todo: modulo
     int getXPosition(int n) {
         for (int i = 0; i < X_SIZE; i++) {
             for (int j = 0; j < Y_SIZE; j++) {
@@ -182,6 +181,7 @@ public class Table {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (chart[i][j] != PATTERN_CHART[i][j]) {
+                    // todo: zmienić na modulo
                     int xBasePosition = getXPosition(PATTERN_CHART[i][j]);
                     int yBasePosition = getYPosition(PATTERN_CHART[i][j]);
                     manhattan += (double) Math.abs(i - xBasePosition) + (double) Math.abs(j - yBasePosition);

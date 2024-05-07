@@ -84,43 +84,8 @@ public class AStar {
         return results;
     }
 
-
-    // todo: start is stepcount
-    Double getDistance(Table current, Table neighbour) {
-        return metrics ? getManhattanStart(current, neighbour) + neighbour.getManhattanEnd()
-                : getHammingStart(current, neighbour) + neighbour.getHammingEnd();
-    }
-
-    double getManhattanStart(Table current, Table neighbour) {
-        int[][] currentChart = current.getChart();
-        int[][] neighbourChart = neighbour.getChart();
-        double manhattan = 0.0;
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (currentChart[i][j] != neighbourChart[i][j]) {
-                    int xBasePosition = neighbour.getXPosition(currentChart[i][j]);
-                    int yBasePosition = neighbour.getYPosition(currentChart[i][j]);
-                    manhattan += (double) Math.abs(i - xBasePosition) + (double) Math.abs(j - yBasePosition);
-                }
-            }
-        }
-
-        return manhattan;
-    }
-
-    double getHammingStart(Table current, Table neighbour) {
-        int[][] tab1 = current.getChart();
-        int[][] tab2 = neighbour.getChart();
-        double hamming = 0.0;
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (tab1[i][j] != tab2[i][j]) {
-                    hamming++;
-                }
-            }
-        }
-        return hamming;
+    Double getDistance(Table startNode, Table current) {
+        return metrics ? Double.parseDouble(startNode.getStepsCount()) + current.getManhattanEnd()
+                : Double.parseDouble(startNode.getStepsCount()) + current.getHammingEnd();
     }
 }

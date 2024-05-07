@@ -47,6 +47,7 @@ public class DFS {
             int currentDepth = Integer.parseInt(currentChart.getStepsCount());
 
             if (containsChart(visited, currentChart.getChart())) {
+
                 continue;
             }
 
