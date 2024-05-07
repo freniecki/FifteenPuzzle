@@ -84,6 +84,8 @@ public class AStar {
         return results;
     }
 
+
+    // todo: start is stepcount
     Double getDistance(Table current, Table neighbour) {
         return metrics ? getManhattanStart(current, neighbour) + neighbour.getManhattanEnd()
                 : getHammingStart(current, neighbour) + neighbour.getHammingEnd();

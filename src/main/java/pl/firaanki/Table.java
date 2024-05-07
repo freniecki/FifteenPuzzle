@@ -45,6 +45,7 @@ public class Table {
         return newChart;
     }
 
+    // todo: modulo
     int getXPosition(int n) {
         for (int i = 0; i < X_SIZE; i++) {
             for (int j = 0; j < Y_SIZE; j++) {

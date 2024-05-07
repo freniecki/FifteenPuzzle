@@ -64,24 +64,25 @@ def count_avg(stats, mode_count):
     return stats_avg
 
 
-def count_avg_all(stats, mode_count):
-    stats_avg = [[[0] * 5 for _ in range(7)] for _ in range(mode_count)]
+def count_avg_all(stats, strategy_count):
+    stats_avg_all = [[[0] * 5 for _ in range(7)] for _ in range(strategy_count)]
+    for mode in stats:
+        temp_stats = [[0] * 5 for _ in range(7)]
+        for i in range(len(mode[0])):  # for every order in strategy
+            count = [0] * 7  # list keeping added operation count
+            for sublist in mode[i]:  # for every record
+                depth_index = sublist[0] - 1
+                for j in range(1, 5):
+                    temp_stats[depth_index][0] = sublist[0]
+                    temp_stats[depth_index][j] += sublist[j]
 
-    for i in range(mode_count):  # for every order
-        count = [0] * 7  # list keeping added operation count
-        for sublist in stats[i]:  # for every record
-            depth_index = sublist[0] - 1
-            for j in range(1, 5):
-                stats_avg[i][depth_index][0] = sublist[0]
-                stats_avg[i][depth_index][j] += sublist[j]
+                count[depth_index] += 1
 
-            count[depth_index] += 1
+            for j in range(len(temp_stats[i])):
+                for k in range(1, 5):
+                    stats_avg_all[i][j][k] /= count[j]
 
-        for j in range(len(stats_avg[i])):
-            for k in range(1, 5):
-                stats_avg[i][j][k] /= count[j]
-
-    return stats_avg
+    return stats_avg_all
 
 
 def plot_graphs(data, index, y_label, mode_count, plot_title, bar_width, legends):
@@ -138,5 +139,14 @@ stats_bfs = run_strategy('bfs', file_orders_bfs, 8, 'BFS', 0.1, orders)
 stats_astar = run_strategy('astar', file_orders_astar, 2, 'A*', 0.2, legends_astar)
 
 stats_all = [stats_bfs, stats_bfs, stats_astar]
+#
+# run_all(stats_all, 3)
 
-run_all(stats_all, 3)
+# list = get_stats_decimal('bfs', file_orders_bfs, 8)
+# for i in range(8):
+#     print(list[i])
+
+
+avg_all = count_avg_all(stats_all, 3)
+for i in range(3):
+    print(avg_all[i])

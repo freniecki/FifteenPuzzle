@@ -22,17 +22,13 @@ public class DFS {
         this.depth = depth;
     }
 
-    void addEdge(Table parent, Table child) {
-        adjacencyList.putIfAbsent(parent, new ArrayList<>());
-        adjacencyList.get(parent).add(child);
-    }
-
-    void fillAdjacencyList(Table chartToSolve) {
+    // TODO: ruch wahadłowy
+    void fillAdjacencyList(Table chart) {
+        adjacencyList.putIfAbsent(chart, new ArrayList<>());
         for (int i = 0; i < 4; i++) {
-            Table neighbour = chartToSolve.moveTile(order[i]);
-
+            Table neighbour = chart.moveTile(order[i]);
             if (neighbour != null) {
-                addEdge(chartToSolve, neighbour);
+                adjacencyList.get(chart).add(neighbour);
             }
         }
     }
@@ -54,9 +50,9 @@ public class DFS {
                 continue;
             }
 
-//            String stringMessage = currentChart + currentChart.getSteps()
-//                    + '\n' + currentChart.getStepsCount();
-//            logger.info(stringMessage);
+            String stringMessage = currentChart + currentChart.getSteps()
+                    + '\n' + currentChart.getStepsCount();
+            logger.info(stringMessage);
 
             if (currentDepth > maxDepthRecursion) {
                 maxDepthRecursion = currentDepth;
@@ -106,6 +102,7 @@ public class DFS {
         return results;
     }
 
+    //todo: sprawdzić kroki i wybrać lepsze i zaczac od tego
     private boolean containsChart(Set<Table> visited, int[][] chart) {
         for (Table t : visited) {
             if (Arrays.deepEquals(t.getChart(), chart)) {
