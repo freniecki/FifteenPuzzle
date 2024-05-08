@@ -3,15 +3,12 @@ package pl.firaanki;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class DFS {
 
     private final char[] order = new char[4];
 
     private final int depth;
-
-    Logger logger = Logger.getLogger(getClass().getName());
 
     private final List<String> results = new ArrayList<>();
 
@@ -58,53 +55,30 @@ public class DFS {
 
             visited.put(currentChart, currentChart.getSteps().length());
 
-            if (currentDepth < depth) {
-                for (int i = 3; i >= 0; i--) {
-                    Table child = currentChart.moveTile(order[i]);
-
-                    if (child != null) {
-                        Integer checkDepth = visited.get(child);
-                        if (checkDepth == null || checkDepth > child.getStepsCount().length()) {
-                            maxDepthRecursion = Math.max(maxDepthRecursion, child.getStepsCount().length());
-                            stack.push(child);
-                        }
-                    }
-                }
+            Table child = thatWasProblemWithBigCognitiveComplexity(currentDepth, currentChart, visited);
+            if (child != null) {
+                maxDepthRecursion = Math.max(maxDepthRecursion, child.getStepsCount().length());
+                stack.push(child);
             }
 
         }
         return false;
     }
 
-    // podwójny warunek:
-    // jeśli chart się powtarza i jeśli ilość kroków do tego stanu jest dłuższa niż już znaleziony
-//    private boolean containsChart(Map<Table, Integer> visited, Table currentChart) {
-//        for (Table t : ) {
-//            if (isEqualChart(currentChart.getChart(), t.getChart())
-//                    &&  currentChart.getSteps().length() >= t.getSteps().length()) {
-//
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    private boolean isEqualChart(int[][] chart1, int[][] chart2) {
-//        for (int i = 0; i < 4; i++) {
-//            for (int j = 0; j < 4; j++) {
-//                if (chart1[i][j] != chart2[i][j]) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
+    private Table thatWasProblemWithBigCognitiveComplexity(int currentDepth, Table currentChart, HashMap<Table, Integer> visited) {
+        if (currentDepth < depth) {
+            for (int i = 3; i >= 0; i--) {
+                Table child = currentChart.moveTile(order[i]);
 
+                if (child != null) {
+                    Integer checkDepth = visited.get(child);
+                    if (checkDepth == null || checkDepth > child.getStepsCount().length()) {
+
+                        return child;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }
-
-/*
-                logger.info(
-                        Arrays.deepEquals(currentChart.getChart(), t.getChart()) +
-                        "\ncurrent: " + currentChart.getStepsCount()
-                        + "\nt: " + t.getStepsCount());
- */
