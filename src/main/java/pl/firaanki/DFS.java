@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
+import static pl.firaanki.Main.logger;
+
 public class DFS {
 
     private final char[] order = new char[4];
@@ -31,6 +33,9 @@ public class DFS {
 
         while (!stack.isEmpty()) {
             Table currentChart = stack.pop();
+
+            //logger.info("current: " + currentChart.toString());
+
             int currentDepth = currentChart.getSteps().length();
 
             if (currentDepth > maxDepthRecursion) {
@@ -46,8 +51,8 @@ public class DFS {
                 results.add(currentChart.getSteps());
 
                 //----to stats file----------------
-                results.add(String.valueOf(visited.size() - stack.size()));
                 results.add(String.valueOf(visited.size()));
+                results.add(String.valueOf(visited.size() + stack.size()));
                 results.add(String.valueOf(maxDepthRecursion));
                 results.add(String.valueOf(timeElapsed));
                 return true;
@@ -55,27 +60,27 @@ public class DFS {
 
             visited.put(currentChart, currentChart.getSteps().length());
 
-            Table child = thatWasProblemWithBigCognitiveComplexity(currentDepth, currentChart, visited);
-            if (child != null) {
-                maxDepthRecursion = Math.max(maxDepthRecursion, child.getStepsCount().length());
-                stack.push(child);
+            for (int i = 3; i >= 0; i--) {
+                Table child = thatWasProblemWithBigCognitiveComplexity(i, currentDepth, currentChart, visited);
+                if (child != null) {
+                    maxDepthRecursion = Math.max(maxDepthRecursion, child.getStepsCount().length());
+                    stack.push(child);
+                    //logger.info("child: " + child.toString());
+                }
             }
-
         }
         return false;
     }
 
-    private Table thatWasProblemWithBigCognitiveComplexity(int currentDepth, Table currentChart, HashMap<Table, Integer> visited) {
+    private Table thatWasProblemWithBigCognitiveComplexity(int orderIndex, int currentDepth, Table currentChart, HashMap<Table, Integer> visited) {
         if (currentDepth < depth) {
-            for (int i = 3; i >= 0; i--) {
-                Table child = currentChart.moveTile(order[i]);
+            Table child = currentChart.moveTile(order[orderIndex]);
 
-                if (child != null) {
-                    Integer checkDepth = visited.get(child);
-                    if (checkDepth == null || checkDepth > child.getStepsCount().length()) {
+            if (child != null) {
+                Integer checkDepth = visited.get(child);
+                if (checkDepth == null || checkDepth > child.getStepsCount().length()) {
 
-                        return child;
-                    }
+                    return child;
                 }
             }
         }

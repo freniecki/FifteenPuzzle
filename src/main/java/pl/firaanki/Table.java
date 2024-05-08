@@ -24,18 +24,6 @@ public class Table {
         this.steps += steps;
     }
 
-    public int getX() {
-        return X_SIZE;
-    }
-
-    public int getY() {
-        return Y_SIZE;
-    }
-
-    public int getValue(int x, int y) {
-        return chart[x][y];
-    }
-
     public int[][] getChart() {
         int[][] newChart = new int[X_SIZE][Y_SIZE];
         for (int i = 0; i < X_SIZE; i++) {
