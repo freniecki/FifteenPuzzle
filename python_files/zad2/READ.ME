@@ -1,0 +1,25 @@
+--------------------
+SPECYFIKACJA:
+    skalowalność: dowolna liczba warstw i neuronów
+    neurony przetwarzające - charakter nieliniowy (SIGMOIDALNA funkcja aktywacji, wsp.nach.= 1)
+    określanie czy ma być uwzględniony bias - przy obliczaniu sumy ważonej wejść
+    wagi sieci - w sposób pseudolosowy [-1,1] lub [-.5;.5]
+    zapis sieci do pliku oraz wczytanie z pliku zapisanej sieci
+    wczytanie zestawu wzorców pliku
+
+    tryb działania:
+        nauki
+        testowania
+
+    zbiór:  https://archive.ics.uci.edu/ml/datasets/iris
+
+    algorytm pojedynczego przejścia:
+        wzorzec treningowy podawany jest na wejścia sieci,
+        następnie odbywa się jego propagacja w przód,
+        dalej na podstawie wartości odpowiedzi wygenerowanej przez sieć oraz wartości pożądanego wzorca odpowiedzi następuje wyznaczenie błędów,
+        po czym propagowane są one wstecz,
+        na koniec zaś ma miejsce wprowadzenie poprawek na wagi
+
+        dodatkowo określanie czy ma być uzwględniany człon momentum
+
+http://neuralnetworksanddeeplearning.com/chap1.html#:~:text=Of%20course%2C%20the%20main%20thing%20we%20want%20our%20Network%20objects%20to%20do%20is%20to%20learn.%20To%20that%20end%20we%27ll%20give%20them%20an%20SGD%20method%20which%20implements%20stochastic%20gradient%20descent.%20Here%27s%20the%20code.%20It%27s%20a%20little%20mysterious%20in%20a%20few%20places%2C%20but%20I%27ll%20break%20it%20down%20below%2C%20after%20the%20listing.
