@@ -52,7 +52,7 @@ public class BFS {
             if (Integer.parseInt(currentChart.getStepsCount()) > maxDepthRecursion) {
                 maxDepthRecursion = Integer.parseInt(currentChart.getStepsCount());
             }
-            if (Helper.verify(currentChart)) {
+            if (currentChart.verify()) {
                 Instant stop = Instant.now();
                 long timeElapsed = Duration.between(start, stop).toMillis();
                 prepareResults(currentChart,

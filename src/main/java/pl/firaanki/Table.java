@@ -44,6 +44,17 @@ public class Table {
         return newChart;
     }
 
+    public boolean verify() {
+        for (int i = 0; i < X_SIZE; i++) {
+            for (int j = 0; j < Y_SIZE; j++) {
+                if (PATTERN_CHART[i][j] != chart[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     int getXPosition() {
         for (int i = 0; i < X_SIZE; i++) {
             for (int j = 0; j < Y_SIZE; j++) {
@@ -93,7 +104,7 @@ public class Table {
         int xZero = getXPosition();
         int yZero = getYPosition();
 
-        Table newTab = new Table(this.getChart(), steps);
+        Table newTab = new Table(getChart(), steps);
 
         switch (direction) {
             case 'L':

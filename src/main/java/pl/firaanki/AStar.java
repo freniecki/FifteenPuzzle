@@ -41,7 +41,7 @@ public class AStar {
                 maxDepthRecursion = Integer.parseInt(currentChart.getStepsCount());
             }
 
-            if (Helper.verify(currentChart)) {
+            if (currentChart.verify()) {
                 Instant stop = Instant.now();
                 long timeElapsed = Duration.between(start, stop).toMillis();
                 prepareResults(currentChart,
@@ -59,7 +59,7 @@ public class AStar {
                 Table neighbour = currentChart.moveTile(order[i]);
 
                 if (neighbour != null) {
-                    neighbour.setDistance(getDistance(chartToSolve, neighbour));
+                    neighbour.setDistance(getDistance(neighbour));
                     priorityQueue.add(neighbour);
                 }
             }
@@ -84,8 +84,8 @@ public class AStar {
         return results;
     }
 
-    Double getDistance(Table startNode, Table current) {
-        return metrics ? Double.parseDouble(startNode.getStepsCount()) + current.getManhattanEnd()
-                : Double.parseDouble(startNode.getStepsCount()) + current.getHammingEnd();
+    Double getDistance(Table current) {
+        return metrics ? Double.parseDouble(current.getStepsCount()) + current.getManhattanEnd()
+                : Double.parseDouble(current.getStepsCount()) + current.getHammingEnd();
     }
 }
