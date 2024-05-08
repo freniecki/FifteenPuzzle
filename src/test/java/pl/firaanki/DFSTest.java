@@ -7,8 +7,8 @@ class DFSTest {
 
     @Test
     void dfs() {
-        char[] order = {'L', 'U', 'D', 'R'};
-        DFS model = new DFS(order, 20);
+        char[] order = {'U', 'L', 'D', 'R'};
+        DFS model = new DFS(order, 18);
 
         int[][] test = {
                 {1, 2, 3, 4},
@@ -20,6 +20,7 @@ class DFSTest {
         Table table = new Table(test, "");
 
         Assertions.assertTrue(model.solve(table));
+        System.out.println(model.getResults());
     }
 
     @Test

@@ -181,14 +181,16 @@ public class Table {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (chart[i][j] != PATTERN_CHART[i][j]) {
-                    // todo: zmienić na modulo
-                    int xBasePosition = getXPosition(PATTERN_CHART[i][j]);
-                    int yBasePosition = getYPosition(PATTERN_CHART[i][j]);
-                    manhattan += (double) Math.abs(i - xBasePosition) + (double) Math.abs(j - yBasePosition);
+                    if (chart[i][j] == 0) {
+                        manhattan += (double) Math.abs(i - 3) + (double) Math.abs(j - 3);
+                    } else {
+                        int xBasePosition = (chart[i][j] - 1 ) / 4;
+                        int yBasePosition = (chart[i][j] - 1 ) % 4;
+                        manhattan += (double) Math.abs(i - xBasePosition) + (double) Math.abs(j - yBasePosition);
+                    }
                 }
             }
         }
-
         return manhattan;
     }
 

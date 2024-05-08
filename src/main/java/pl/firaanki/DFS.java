@@ -22,13 +22,17 @@ public class DFS {
         this.depth = depth;
     }
 
-    // TODO: ruch wahadłowy
-    void fillAdjacencyList(Table chart) {
-        adjacencyList.putIfAbsent(chart, new ArrayList<>());
+    List<String> getResults() {
+        return results;
+    }
+
+    // TODO: ruch wahadłowy ??
+    void fillAdjacencyList(Table parent) {
+        adjacencyList.putIfAbsent(parent, new ArrayList<>());
         for (int i = 0; i < 4; i++) {
-            Table neighbour = chart.moveTile(order[i]);
-            if (neighbour != null) {
-                adjacencyList.get(chart).add(neighbour);
+            Table child = parent.moveTile(order[i]);
+            if (child != null) {
+                adjacencyList.get(parent).add(child);
             }
         }
     }
@@ -46,14 +50,13 @@ public class DFS {
             Table currentChart = stack.pop();
             int currentDepth = Integer.parseInt(currentChart.getStepsCount());
 
-            if (containsChart(visited, currentChart.getChart())) {
-
+            if (containsChart(visited, currentChart)) {
                 continue;
             }
 
-            String stringMessage = currentChart + currentChart.getSteps()
-                    + '\n' + currentChart.getStepsCount();
-            logger.info(stringMessage);
+//            String stringMessage = currentChart + currentChart.getSteps()
+//                    + '\n' + currentChart.getStepsCount();
+//            logger.info(stringMessage);
 
             if (currentDepth > maxDepthRecursion) {
                 maxDepthRecursion = currentDepth;
@@ -78,7 +81,7 @@ public class DFS {
             }
 
             for (Table neighbour : adjacencyList.get(currentChart).reversed()) {
-                if (!containsChart(visited, neighbour.getChart())) {
+                if (!containsChart(visited, neighbour)) {
                     fillAdjacencyList(neighbour);
                     stack.push(neighbour);
                 }
@@ -99,14 +102,12 @@ public class DFS {
         results.add(timeElapsed);
     }
 
-    List<String> getResults() {
-        return results;
-    }
-
-    //todo: sprawdzić kroki i wybrać lepsze i zaczac od tego
-    private boolean containsChart(Set<Table> visited, int[][] chart) {
+    // podwójny warunek:
+    // jeśli chart się powtarza i jeśli ilość kroków do tego stanu jest dłuższa niż już znaleziony
+    private boolean containsChart(Set<Table> visited, Table currentChart) {
         for (Table t : visited) {
-            if (Arrays.deepEquals(t.getChart(), chart)) {
+            if (Arrays.deepEquals(currentChart.getChart(), t.getChart())
+                    &&  Integer.parseInt(currentChart.getStepsCount()) >= Integer.parseInt(t.getStepsCount())) {
                 return true;
             }
         }
