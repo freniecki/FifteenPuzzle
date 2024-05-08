@@ -7,8 +7,6 @@ import java.util.logging.Logger;
 
 public class DFS {
 
-    private final Map<Table, List<Table>> adjacencyList = new HashMap<>();
-
     private final char[] order = new char[4];
 
     private final int depth;
@@ -26,24 +24,12 @@ public class DFS {
         return results;
     }
 
-    // TODO: ruch wahadłowy ??
-    void fillAdjacencyList(Table parent) {
-        adjacencyList.putIfAbsent(parent, new ArrayList<>());
-        for (int i = 0; i < 4; i++) {
-            Table child = parent.moveTile(order[i]);
-            if (child != null) {
-                adjacencyList.get(parent).add(child);
-            }
-        }
-    }
-
     public boolean solve(Table chartToSolve) {
         Instant start = Instant.now();
         Deque<Table> stack = new LinkedList<>();
         Set<Table> visited = new HashSet<>();
         int maxDepthRecursion = 0;
 
-        fillAdjacencyList(chartToSolve);
         stack.push(chartToSolve);
 
         while (!stack.isEmpty()) {
@@ -80,10 +66,10 @@ public class DFS {
                 continue;
             }
 
-            for (Table neighbour : adjacencyList.get(currentChart).reversed()) {
-                if (!containsChart(visited, neighbour)) {
-                    fillAdjacencyList(neighbour);
-                    stack.push(neighbour);
+            for (int i = 3; i >= 0; i--) {
+                Table child = currentChart.moveTile(order[i]);
+                if (child != null && !containsChart(visited, child)) {
+                    stack.push(child);
                 }
             }
         }

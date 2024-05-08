@@ -7,8 +7,8 @@ class DFSTest {
 
     @Test
     void dfs() {
-        char[] order = {'U', 'L', 'D', 'R'};
-        DFS model = new DFS(order, 18);
+        char[] order = {'R', 'D', 'U', 'L'};
+        DFS model = new DFS(order, 20);
 
         int[][] test = {
                 {1, 2, 3, 4},

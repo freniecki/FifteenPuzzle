@@ -1,7 +1,6 @@
 package pl.firaanki;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Table {
 
@@ -45,10 +44,10 @@ public class Table {
         return newChart;
     }
 
-    int getXPosition(int n) {
+    int getXPosition() {
         for (int i = 0; i < X_SIZE; i++) {
             for (int j = 0; j < Y_SIZE; j++) {
-                if (chart[i][j] == n) {
+                if (chart[i][j] == 0) {
                     return i;
                 }
             }
@@ -56,10 +55,10 @@ public class Table {
         return -1;
     }
 
-    int getYPosition(int n) {
+    int getYPosition() {
         for (int i = 0; i < X_SIZE; i++) {
             for (int j = 0; j < Y_SIZE; j++) {
-                if (chart[i][j] == n) {
+                if (chart[i][j] == 0) {
                     return j;
                 }
             }
@@ -91,8 +90,8 @@ public class Table {
             return null;
         }
 
-        int xZero = getXPosition(0);
-        int yZero = getYPosition(0);
+        int xZero = getXPosition();
+        int yZero = getYPosition();
 
         Table newTab = new Table(this.getChart(), steps);
 
